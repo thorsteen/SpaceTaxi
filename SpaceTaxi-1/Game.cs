@@ -15,10 +15,13 @@ namespace SpaceTaxi_1 {
         private GameTimer gameTimer;
         private Player player;
         private Window win;
+        private Level level;
+        private LevelParser levelParser;
 
         public Game() {
             // window
             win = new Window("Space Taxi Game v0.1", 500, AspectRatio.R1X1);
+            levelParser = new LevelParser();
 
             // event bus
             eventBus = new GameEventBus<object>();
@@ -49,6 +52,11 @@ namespace SpaceTaxi_1 {
             eventBus.Subscribe(GameEventType.InputEvent, this);
             eventBus.Subscribe(GameEventType.WindowEvent, this);
             eventBus.Subscribe(GameEventType.PlayerEvent, player);
+        }
+
+
+        public void SetLevel(string levelFileName) { //sets a level
+            level = levelParser.CreateLevel(levelFileName);
         }
 
         public void GameLoop() {
