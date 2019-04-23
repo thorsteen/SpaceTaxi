@@ -4,6 +4,7 @@ using System.IO;
 using DIKUArcade;
 using DIKUArcade.Entities;
 using DIKUArcade.EventBus;
+using DIKUArcade.Graphics;
 using DIKUArcade.Math;
 using DIKUArcade.Timers;
 
