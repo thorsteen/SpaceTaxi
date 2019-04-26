@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System;
+using System.Linq;
 using System.Text;
 
 namespace SpaceTaxi_1 {
@@ -20,6 +21,8 @@ namespace SpaceTaxi_1 {
 
             List<string> map = new List<string>();
             string mapName = "";
+            Dictionary<char,string> keyLegend = new Dictionary<char, string>();
+            List<Customer> custumers = new List<Customer>();
 
             // Gives the Map to a list 
             for (int lineNum = 0; lineNum < levelFileLines.Length -1; lineNum++) {
@@ -31,13 +34,22 @@ namespace SpaceTaxi_1 {
                     string temp = levelFileLines[lineNum];
                     mapName = temp.Replace("Name: ", "");
                 }
+                // Makes the dictonary, connecting the lettes and their respective PNG files 
+                else if (levelFileLines[lineNum].Contains(".png")) {
+                    string temp = levelFileLines[lineNum];
+                    string[] tempDict = temp.Split(new string[] {") "}, StringSplitOptions.None);
+                    keyLegend.Add(tempDict[0][0],tempDict[1]);
+                }
+                else if (levelFileLines[lineNum].Contains("Customer")) {
+                    string temp = levelFileLines[lineNum];
+                    custumers.Add(new Customer(temp.Replace("Customer: ", "")));
+                }
             }
             
             
 
             
-            return new Level(map.ToArray(), mapName, new char[] {'c'}, new Dictionary<char, string> 
-            {{'a', "test.png"}}, new List<Customer>());
+            return new Level(map.ToArray(), mapName, new char[] {'c'}, keyLegend, custumers);
        
         } //RETURNS USELESS MAP FOR NOW
         

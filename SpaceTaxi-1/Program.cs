@@ -10,6 +10,9 @@ namespace SpaceTaxi_1 {
             Console.WriteLine(testLevel.map[0]);
             Console.WriteLine(testLevel.mapName);
             Console.WriteLine(testLevel1.mapName);
+            Console.WriteLine(testLevel.keyLegend['G']);
+            Console.WriteLine(testLevel1.keyLegend['G']);
+            Console.WriteLine(testLevel.customers[0]);
             ///game.GameLoop();
         }
     }
