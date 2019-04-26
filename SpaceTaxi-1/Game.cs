@@ -16,6 +16,8 @@ namespace SpaceTaxi_1 {
         private Player player;
         private Window win;
         private Level level;
+        private List<Entity> EList;
+        private LevelRender levelRender;
         public LevelParser levelParser;
 
         public Game() {
@@ -52,13 +54,17 @@ namespace SpaceTaxi_1 {
             eventBus.Subscribe(GameEventType.InputEvent, this);
             eventBus.Subscribe(GameEventType.WindowEvent, this);
             eventBus.Subscribe(GameEventType.PlayerEvent, player);
+            
+            levelRender = new LevelRender();
+            EList = levelRender.LevelEntityAssigner(level);
         }
-
-
+        
+        
         public void SetLevel(string levelFileName) { //sets a level
             level = levelParser.CreateLevel(levelFileName);
+            
         }
-
+        
         public void GameLoop() {
             while (win.IsRunning()) {
                 gameTimer.MeasureTime();
@@ -72,6 +78,9 @@ namespace SpaceTaxi_1 {
                     win.Clear();
                     backGroundImage.RenderEntity();
                     player.RenderPlayer();
+                    foreach (Entity ent in EList) {
+                        ent.RenderEntity(); // Should render the pictures in the EList (Doesn't)
+                    }
 
                     win.SwapBuffers();
                 }
