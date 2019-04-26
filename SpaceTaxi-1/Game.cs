@@ -16,7 +16,7 @@ namespace SpaceTaxi_1 {
         private Player player;
         private Window win;
         private Level level;
-        private LevelParser levelParser;
+        public LevelParser levelParser;
 
         public Game() {
             // window
