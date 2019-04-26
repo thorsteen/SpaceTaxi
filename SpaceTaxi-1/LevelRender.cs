@@ -13,7 +13,7 @@ namespace SpaceTaxi_1 {
         /// </summary>
         /// <param name="level"></param
         /// <returns>List_Entity </returns>
-        public List<Entity> LevelEntityAssigner(Level level) {
+        public List<Entity> LevelToEntityList(Level level) {
             List<Entity> listEntity = new List<Entity>();
             for (int i = 0; i < 23; i++) {
                 for (int j = 0; j < 40; j++) {

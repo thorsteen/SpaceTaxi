@@ -56,7 +56,7 @@ namespace SpaceTaxi_1 {
             eventBus.Subscribe(GameEventType.PlayerEvent, player);
             
             levelRender = new LevelRender();
-            EList = levelRender.LevelEntityAssigner(level);
+            EList = levelRender.LevelToEntityList(level);
         }
         
         
