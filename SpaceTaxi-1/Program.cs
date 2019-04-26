@@ -3,18 +3,8 @@
 namespace SpaceTaxi_1 {
     internal class Program {
         public static void Main(string[] args) {
-            ///Test.Method(); /// test af file stream reader class skabelon
             var game = new Game();
-            Level testLevel = game.levelParser.CreateLevel("the-beach.txt");
-            Level testLevel1 = game.levelParser.CreateLevel("short-n-sweet.txt");
-            Console.WriteLine(testLevel.map[0]);
-            Console.WriteLine(testLevel.mapName);
-            Console.WriteLine(testLevel1.mapName);
-            Console.WriteLine(testLevel.keyLegend['G']);
-            Console.WriteLine(testLevel1.keyLegend['G']);
-            Console.WriteLine(testLevel.customers[0]);
-            Console.WriteLine(testLevel.platforms[2]);
-            ///game.GameLoop();
+            game.GameLoop();
         }
     }
 }
