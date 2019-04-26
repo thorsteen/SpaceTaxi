@@ -17,7 +17,7 @@ namespace SpaceTaxi_1 {
         } 
 
         private Level TextToLevel(string[] levelFileString) { //translates text into a level
-            return new Level(new char[,] {{ 'a', 'b' }, { 'c', 'd' }}, "Dummy map", 2, new Dictionary<char, string> {{'a', "test.png"}}, new List<Customer>());
+            return new Level(new string[] {"hej","hej2"}, "Dummy map", new char[] {'c'}, new Dictionary<char, string> {{'a', "test.png"}}, new List<Customer>());
         } //RETURNS USELESS MAP FOR NOW
         
         public Level CreateLevel(string levelFileName) { //creates a level from a file name
