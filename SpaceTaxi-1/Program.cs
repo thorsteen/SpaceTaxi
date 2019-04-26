@@ -5,19 +5,11 @@ namespace SpaceTaxi_1 {
         public static void Main(string[] args) {
             ///Test.Method(); /// test af file stream reader class skabelon
             var game = new Game();
-            string[] abb = game.levelParser.TextInFile("the-beach.txt");
-            string[] ab = game.levelParser.TextInFile("short-n-sweet.txt");
-
-            for (int i = 0; i < abb.Length; i++) {
-                Console.WriteLine(abb[i]);
-
-            }
-            
-            for (int i = 0; i < ab.Length; i++) {
-                Console.WriteLine(ab[i]);
-
-            }
-
+            Level testLevel = game.levelParser.CreateLevel("the-beach.txt");
+            Level testLevel1 = game.levelParser.CreateLevel("short-n-sweet.txt");
+            Console.WriteLine(testLevel.map[0]);
+            Console.WriteLine(testLevel.mapName);
+            Console.WriteLine(testLevel1.mapName);
             ///game.GameLoop();
         }
     }

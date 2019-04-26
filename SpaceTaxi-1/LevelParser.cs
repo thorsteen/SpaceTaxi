@@ -19,19 +19,25 @@ namespace SpaceTaxi_1 {
         private Level TextToLevel(string[] levelFileLines) { //translates text into a level
 
             List<string> map = new List<string>();
-            string mapName;
+            string mapName = "";
 
-
+            // Gives the Map to a list 
             for (int lineNum = 0; lineNum < levelFileLines.Length -1; lineNum++) {
                 if (lineNum < 23) {
                     map.Add(levelFileLines[lineNum]);
+                }
+                // Gives the MapName
+                else if (lineNum == 24) {
+                    string temp = levelFileLines[lineNum];
+                    mapName = temp.Replace("Name: ", "");
                 }
             }
             
             
 
             
-            return new Level(map.ToArray(), "Dummy map", new char[] {'c'}, new Dictionary<char, string> {{'a', "test.png"}}, new List<Customer>());
+            return new Level(map.ToArray(), mapName, new char[] {'c'}, new Dictionary<char, string> 
+            {{'a', "test.png"}}, new List<Customer>());
        
         } //RETURNS USELESS MAP FOR NOW
         
