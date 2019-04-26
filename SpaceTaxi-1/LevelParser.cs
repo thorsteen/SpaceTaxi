@@ -16,8 +16,23 @@ namespace SpaceTaxi_1 {
 
         } 
 
-        private Level TextToLevel(string[] levelFileString) { //translates text into a level
-            return new Level(new string[] {"hej","hej2"}, "Dummy map", new char[] {'c'}, new Dictionary<char, string> {{'a', "test.png"}}, new List<Customer>());
+        private Level TextToLevel(string[] levelFileLines) { //translates text into a level
+
+            List<string> map = new List<string>();
+            string mapName;
+
+
+            for (int lineNum = 0; lineNum < levelFileLines.Length -1; lineNum++) {
+                if (lineNum < 23) {
+                    map.Add(levelFileLines[lineNum]);
+                }
+            }
+            
+            
+
+            
+            return new Level(map.ToArray(), "Dummy map", new char[] {'c'}, new Dictionary<char, string> {{'a', "test.png"}}, new List<Customer>());
+       
         } //RETURNS USELESS MAP FOR NOW
         
         public Level CreateLevel(string levelFileName) { //creates a level from a file name
