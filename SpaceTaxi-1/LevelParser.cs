@@ -22,7 +22,8 @@ namespace SpaceTaxi_1 {
             List<string> map = new List<string>();
             string mapName = "";
             Dictionary<char,string> keyLegend = new Dictionary<char, string>();
-            List<Customer> custumers = new List<Customer>();
+            List<Customer> customers = new List<Customer>();
+            List<char> platforms = new List<char>();
 
             // Gives the Map to a list 
             for (int lineNum = 0; lineNum < levelFileLines.Length -1; lineNum++) {
@@ -34,6 +35,14 @@ namespace SpaceTaxi_1 {
                     string temp = levelFileLines[lineNum];
                     mapName = temp.Replace("Name: ", "");
                 }
+                else if (lineNum == 25) {
+                    string temp = levelFileLines[lineNum];
+                    string temp2 = temp.Replace("Platforms: ", "");
+                    for (int i = 0; i < temp2.Length; i += 3) {
+                        platforms.Add(temp2[i]); 
+                    }
+                    
+                }
                 // Makes the dictonary, connecting the lettes and their respective PNG files 
                 else if (levelFileLines[lineNum].Contains(".png")) {
                     string temp = levelFileLines[lineNum];
@@ -42,14 +51,14 @@ namespace SpaceTaxi_1 {
                 }
                 else if (levelFileLines[lineNum].Contains("Customer")) {
                     string temp = levelFileLines[lineNum];
-                    custumers.Add(new Customer(temp.Replace("Customer: ", "")));
+                    customers.Add(new Customer(temp.Replace("Customer: ", "")));
                 }
             }
             
             
 
             
-            return new Level(map.ToArray(), mapName, new char[] {'c'}, keyLegend, custumers);
+            return new Level(map.ToArray(), mapName, platforms, keyLegend, customers);
        
         } //RETURNS USELESS MAP FOR NOW
         

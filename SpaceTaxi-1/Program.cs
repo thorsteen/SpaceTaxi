@@ -13,6 +13,7 @@ namespace SpaceTaxi_1 {
             Console.WriteLine(testLevel.keyLegend['G']);
             Console.WriteLine(testLevel1.keyLegend['G']);
             Console.WriteLine(testLevel.customers[0]);
+            Console.WriteLine(testLevel.platforms[2]);
             ///game.GameLoop();
         }
     }
