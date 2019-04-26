@@ -60,7 +60,7 @@ namespace SpaceTaxi_1 {
             
             return new Level(map.ToArray(), mapName, platforms, keyLegend, customers);
        
-        } //RETURNS USELESS MAP FOR NOW
+        } //RETURNS NOT SO USELESS MAP
         
         public Level CreateLevel(string levelFileName) { //creates a level from a file name
             return TextToLevel(TextInFile(levelFileName));
