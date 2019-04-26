@@ -17,7 +17,11 @@ namespace SpaceTaxi_1 {
             return lines;
 
         } 
-
+        /// <summary>
+        /// The function is able to translate the file text into several different arrays and strings, which are passed through to the level later on. This is done by a for-loop that itterates through the whole array, and then sepparates them into smaller pieces. 
+        /// </summary>
+        /// <param name="levelFileLines"></param>
+        /// <returns>Level</returns>
         private Level TextToLevel(string[] levelFileLines) { //translates text into a level
 
             List<string> map = new List<string>();
@@ -62,7 +66,11 @@ namespace SpaceTaxi_1 {
             return new Level(map.ToArray(), mapName, platforms, keyLegend, customers);
        
         } //RETURNS NOT SO USELESS MAP
-        
+        /// <summary>
+        /// Creates a level via TextToLevel / TextInFile
+        /// </summary>
+        /// <param name="levelFileName"></param>
+        /// <returns></returns>
         public Level CreateLevel(string levelFileName) { //creates a level from a file name
             return TextToLevel(TextInFile(levelFileName));
         }

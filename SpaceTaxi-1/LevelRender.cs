@@ -11,7 +11,7 @@ namespace SpaceTaxi_1 {
         /// the array goes through each element, and assigns the given path for the picture to the
         /// char. 
         /// </summary>
-        /// <param name="level"></param
+        /// <param name="level"></param>
         /// <returns>List_Entity </returns>
         public List<Entity> LevelEntityAssigner(Level level) {
             List<Entity> listEntity = new List<Entity>();
