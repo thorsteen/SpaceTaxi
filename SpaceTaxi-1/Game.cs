@@ -24,6 +24,7 @@ namespace SpaceTaxi_1 {
             // window
             win = new Window("Space Taxi Game v0.1", 500, AspectRatio.R1X1);
             levelParser = new LevelParser();
+            level = levelParser.CreateLevel("short-n-sweet.txt");
 
             // event bus
             eventBus = new GameEventBus<object>();

@@ -17,8 +17,9 @@ namespace SpaceTaxi_1 {
             List<Entity> listEntity = new List<Entity>();
             for (int i = 0; i < 23; i++) {
                 for (int j = 0; j < 40; j++) {
+                    
                     char symbol = level.map[i][j];
-                    if (symbol != ' ') {
+                    if (symbol != ' ' || symbol != '^') {
                         string fileName = level.keyLegend[symbol];
                         Entity entity = new Entity(new StationaryShape(new Vec2F(1f / 40f * j, 1f / 
                                                                                                23f * i), new 

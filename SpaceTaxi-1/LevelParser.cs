@@ -29,6 +29,7 @@ namespace SpaceTaxi_1 {
             Dictionary<char,string> keyLegend = new Dictionary<char, string>();
             List<Customer> customers = new List<Customer>();
             List<char> platforms = new List<char>();
+            
 
             // Gives the Map to a list 
             for (int lineNum = 0; lineNum < levelFileLines.Length -1; lineNum++) {
