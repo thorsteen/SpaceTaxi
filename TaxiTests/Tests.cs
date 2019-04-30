@@ -19,7 +19,9 @@ namespace TaxiTests {
         public void TestCreateLevel() {
             LevelParser lvlParser = new LevelParser();
             var tempName = lvlParser.CreateLevel("the-beach.txt").mapName;
-            Assert.AreSame("the beach",tempName);
+            Assert.AreEqual("THE BEACH",tempName);
+
+            var tempMap = lvlParser.CreateLevel("the-beach.txt").map;
         }
     }
 }
