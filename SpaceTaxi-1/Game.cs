@@ -24,7 +24,7 @@ namespace SpaceTaxi_1 {
             // window
             win = new Window("Space Taxi Game v0.1", 500, AspectRatio.R1X1);
             levelParser = new LevelParser();
-            level = levelParser.CreateLevel("short-n-sweet.txt");
+            level = levelParser.CreateLevel("the-beach.txt");
 
             // event bus
             eventBus = new GameEventBus<object>();
@@ -63,6 +63,7 @@ namespace SpaceTaxi_1 {
         
         public void SetLevel(string levelFileName) { //sets a level
             level = levelParser.CreateLevel(levelFileName);
+            EList = levelRender.LevelToEntityList(level);
             
         }
         
@@ -73,6 +74,7 @@ namespace SpaceTaxi_1 {
                 while (gameTimer.ShouldUpdate()) {
                     win.PollEvents();
                     eventBus.ProcessEvents();
+                    
                 }
 
                 if (gameTimer.ShouldRender()) {
@@ -82,7 +84,6 @@ namespace SpaceTaxi_1 {
                     foreach (Entity ent in EList) {
                         ent.RenderEntity(); // Should render the pictures in the EList (Doesn't)
                     }
-
                     win.SwapBuffers();
                 }
 
@@ -99,6 +100,14 @@ namespace SpaceTaxi_1 {
             case "KEY_ESCAPE":
                 win.CloseWindow();
                 break;
+            case "KEY_F11":
+                Console.WriteLine("Change Level to: ");
+                string newLevel = Console.ReadLine();
+                Console.WriteLine("Changing level to " + newLevel);
+                SetLevel(newLevel);
+                Console.WriteLine(level.mapName);
+                break;
+                
             case "KEY_F12":
                 Console.WriteLine("Saving screenshot");
                 win.SaveScreenShot();
