@@ -19,10 +19,10 @@ namespace SpaceTaxi_1 {
                 for (int j = 0; j < 40; j++) {
                     
                     char symbol = level.map[i][j];
-                    if (symbol != ' ' || symbol != '^') {
+                    if (symbol != ' ' && symbol != '^' && symbol != '>') {
                         string fileName = level.keyLegend[symbol];
-                        Entity entity = new Entity(new StationaryShape(new Vec2F(1f / 40f * j, 1f / 
-                                                                                               23f * i), new 
+                        Entity entity = new Entity(new StationaryShape(new Vec2F(1f / 40f * j, 22f/23f - (1f / 
+                                                                                               23f * i)), new 
                             Vec2F(
                                 1f / 40f,
                                 1f / 23f)), new Image(Path.Combine("Assets", "Images", fileName)));
