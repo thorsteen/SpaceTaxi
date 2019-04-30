@@ -37,6 +37,9 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <HintPath>..\..\..\..\..\..\Library\Frameworks\Mono.framework\Versions\5.10.1\lib\mono\4.5-api\System.Drawing.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -46,10 +49,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Customer.cs" />
+    <Compile Include="EventBus.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Level.cs" />
     <Compile Include="LevelParser.cs" />
     <Compile Include="LevelRender.cs" />
+    <Compile Include="States\ChooseLevel.cs" />
+    <Compile Include="States\GamePaused.cs" />
+    <Compile Include="States\GameRunning.cs" />
+    <Compile Include="States\GameStateType.cs" />
+    <Compile Include="States\MainMenu.cs" />
+    <Compile Include="States\StateMachine.cs" />
     <Compile Include="Taxi\Orientation.cs" />
     <Compile Include="Taxi\Player.cs" />
     <Compile Include="Program.cs" />
