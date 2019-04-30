@@ -11,6 +11,12 @@ using DIKUArcade.Timers;
 
 namespace SpaceTaxi_1 {
     public class GameRunning : IGameState{
+        
+        private static GameRunning instance = null;
+        
+        public static GameRunning GetInstance() {
+            return GameRunning.instance ?? (GameRunning.instance = new GameRunning());
+        }
         public void GameLoop() {
         }
 
