@@ -11,7 +11,7 @@ using DIKUArcade.Timers;
 namespace SpaceTaxi_1 {
     public class Game : IGameEventProcessor<object> {
         private Entity backGroundImage;
-        private GameEventBus<object> eventBus;
+        public GameEventBus<object> eventBus;
         private GameTimer gameTimer;
         private Player player;
         private Window win;
@@ -27,7 +27,7 @@ namespace SpaceTaxi_1 {
             level = levelParser.CreateLevel("short-n-sweet.txt");
 
             // event bus
-            eventBus = new GameEventBus<object>();
+            eventBus = EventBus.GetBus();
             eventBus.InitializeEventBus(new List<GameEventType> {
                 GameEventType.InputEvent, // key press / key release
                 GameEventType.WindowEvent, // messages to the window, e.g. CloseWindow()
