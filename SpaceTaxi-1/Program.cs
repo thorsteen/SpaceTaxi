@@ -5,6 +5,7 @@ namespace SpaceTaxi_1 {
         public static void Main(string[] args) {
             var game = new Game();
             game.GameLoop();
+
         }
     }
 }
