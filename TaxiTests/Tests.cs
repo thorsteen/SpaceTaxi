@@ -21,7 +21,9 @@ namespace TaxiTests {
             var tempName = lvlParser.CreateLevel("the-beach.txt").mapName;
             Assert.AreEqual("THE BEACH",tempName);
 
-            var tempMap = lvlParser.CreateLevel("the-beach.txt").map;
+            var tempMap = lvlParser.CreateLevel("the-beach.txt").map[15];
+            
+            Assert.AreEqual("A                           a  po      B", tempMap);
         }
     }
 }
