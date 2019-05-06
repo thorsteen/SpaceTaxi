@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{6B6B73FE-D105-4F0E-9B51-069B6FD6328F}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>SpaceTaxi_1</RootNamespace>
-    <AssemblyName>SpaceTaxi-1</AssemblyName>
+    <RootNamespace>SpaceTaxi_2</RootNamespace>
+    <AssemblyName>SpaceTaxi-2</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -49,10 +49,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Customer.cs" />
+    <Compile Include="EventBus.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Level.cs" />
     <Compile Include="LevelParser.cs" />
     <Compile Include="LevelRender.cs" />
+    <Compile Include="States\ChooseLevel.cs" />
+    <Compile Include="States\GamePaused.cs" />
+    <Compile Include="States\GameRunning.cs" />
+    <Compile Include="States\GameStateType.cs" />
+    <Compile Include="States\MainMenu.cs" />
+    <Compile Include="States\StateMachine.cs" />
     <Compile Include="Taxi\Orientation.cs" />
     <Compile Include="Taxi\Player.cs" />
     <Compile Include="Program.cs" />

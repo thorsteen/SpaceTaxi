@@ -1,15 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using DIKUArcade.Entities;
-using DIKUArcade.EventBus;
-using DIKUArcade.Graphics;
-using DIKUArcade.Math;
-using DIKUArcade.Physics;
 using DIKUArcade.State;
-using DIKUArcade.Timers;
 
-namespace SpaceTaxi_1 {
+namespace SpaceTaxi_2.States {
     public class GameRunning : IGameState{
         
         private static GameRunning instance = null;

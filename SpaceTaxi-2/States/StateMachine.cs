@@ -1,7 +1,7 @@
 using DIKUArcade.EventBus;
 using DIKUArcade.State;
 
-namespace SpaceTaxi_1 {
+namespace SpaceTaxi_2.States {
     public class StateMachine : IGameEventProcessor<object> {
         public IGameState ActivateState { get; private set; }
 

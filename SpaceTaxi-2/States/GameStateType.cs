@@ -1,6 +1,6 @@
 using System;
 
-namespace SpaceTaxi_1 {
+namespace SpaceTaxi_2.States {
     public enum GameStateType {
         GameRunning,
         GamePaused,

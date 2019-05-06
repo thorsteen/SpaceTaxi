@@ -1,11 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
-using System;
-using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 
-namespace SpaceTaxi_1 {
+namespace SpaceTaxi_2 {
     public class LevelParser {
         
         public string[] TextInFile(string fileName) { //returns the string of a text file

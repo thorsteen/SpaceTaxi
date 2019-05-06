@@ -7,8 +7,9 @@ using DIKUArcade.EventBus;
 using DIKUArcade.Graphics;
 using DIKUArcade.Math;
 using DIKUArcade.Timers;
+using SpaceTaxi_2.Taxi;
 
-namespace SpaceTaxi_1 {
+namespace SpaceTaxi_2 {
     public class Game : IGameEventProcessor<object> {
         private Entity backGroundImage;
         public GameEventBus<object> eventBus;
@@ -27,6 +28,7 @@ namespace SpaceTaxi_1 {
             level = levelParser.CreateLevel("the-beach.txt");
 
             // event bus
+            eventBus = EventBus.GetBus();
             eventBus.InitializeEventBus(new List<GameEventType> {
                 GameEventType.InputEvent, // key press / key release
                 GameEventType.WindowEvent, // messages to the window, e.g. CloseWindow()

@@ -1,14 +1,13 @@
 using System.Drawing;
 using System.IO;
 using DIKUArcade.Entities;
-using DIKUArcade.EventBus;
 using DIKUArcade.Graphics;
 using DIKUArcade.Math;
 using DIKUArcade.State;
 using Image = DIKUArcade.Graphics.Image;
 
 
-namespace SpaceTaxi_1 {
+namespace SpaceTaxi_2.States {
     public class ChooseLevel : IGameState {
         private static ChooseLevel instance = null;
 

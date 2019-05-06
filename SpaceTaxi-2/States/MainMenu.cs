@@ -1,4 +1,3 @@
-
 using System.Drawing;
 using System.IO;
 using DIKUArcade.Entities;
@@ -8,7 +7,7 @@ using DIKUArcade.Math;
 using DIKUArcade.State;
 using Image = DIKUArcade.Graphics.Image;
 
-namespace SpaceTaxi_1 {
+namespace SpaceTaxi_2.States {
     public class MainMenu : IGameState {
         private static MainMenu instance = null;
 
