@@ -30,6 +30,7 @@ namespace SpaceTaxi_2 {
             "CustomerWalkLeft.png"));
             CustomerLeftStride = ImageStride.CreateStrides(2, Path.Combine("Assets","Images",
                 "CustomerWalkRight.png"));
+            Walking = new AnimationContainer(200);
 
         }
        
