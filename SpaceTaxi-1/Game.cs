@@ -26,15 +26,6 @@ namespace SpaceTaxi_1 {
             levelParser = new LevelParser();
             level = levelParser.CreateLevel("the-beach.txt");
 
-            // event bus
-            eventBus.InitializeEventBus(new List<GameEventType> {
-                GameEventType.InputEvent, // key press / key release
-                GameEventType.WindowEvent, // messages to the window, e.g. CloseWindow()
-                GameEventType.PlayerEvent // commands issued to the player object, e.g. move,
-                                          // destroy, receive health, etc.
-            });
-            win.RegisterEventBus(eventBus);
-
             // game timer
             gameTimer = new GameTimer(60); // 60 UPS, no FPS limit
 
@@ -50,10 +41,6 @@ namespace SpaceTaxi_1 {
             player.SetPosition(0.45f, 0.6f);
             player.SetExtent(0.1f, 0.1f);
 
-            // event delegation
-            eventBus.Subscribe(GameEventType.InputEvent, this);
-            eventBus.Subscribe(GameEventType.WindowEvent, this);
-            eventBus.Subscribe(GameEventType.PlayerEvent, player);
             
             levelRender = new LevelRender();
             EList = levelRender.LevelToEntityList(level);
@@ -72,7 +59,6 @@ namespace SpaceTaxi_1 {
 
                 while (gameTimer.ShouldUpdate()) {
                     win.PollEvents();
-                    eventBus.ProcessEvents();
                     
                 }
 
