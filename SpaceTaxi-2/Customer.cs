@@ -16,10 +16,10 @@ namespace SpaceTaxi_2 {
         public List<Image> CustomerRightStride;
         private AnimationContainer Walking;
         private int walkingLenght = 200;
-        private string Name;
+        private string name;
         
         public Customer(string customer) {
-            Name = customer;
+            name = customer;
             shape = new DynamicShape(new Vec2F(), new Vec2F());
             customerLeft = new Image(Path.Combine("Assets", "Images", "CustomerStandLeft.png"));
             customerMoveLeft = new Image(Path.Combine("Assets","Images","CustomerWalkLeft.png"));
