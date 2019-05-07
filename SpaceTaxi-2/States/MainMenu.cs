@@ -23,7 +23,7 @@ namespace SpaceTaxi_2.States {
         public MainMenu() {
             menuButtons = new Text[] {
                 new Text("NEW GAME", new Vec2F(0.3f, 0.1f), new Vec2F(0.5f, 0.5f)),
-                new Text("Quit", new Vec2F(0.40f, 0.0f), new Vec2F(0.5f, 0.5f))
+                new Text("Choose level", new Vec2F(0.40f, 0.0f), new Vec2F(0.5f, 0.5f))
             };
             foreach (var Text in menuButtons) {
                 Text.SetColor(Color.White);
@@ -83,15 +83,17 @@ namespace SpaceTaxi_2.States {
                                         "GAME_RUNNING", ""));
                                 
                             } else {
-                                EventBus.GetBus().RegisterEvent(GameEventFactory<object>
-                                    .CreateGameEventForAllProcessors(GameEventType.WindowEvent, this,
-                                        "CLOSE_WINDOW", "MAIN_MENU", ""));
+                                GameEventFactory<object>.CreateGameEventForAllProcessors(
+                                    GameEventType.GameStateEvent,
+                                    this,
+                                    "CHANGE_STATE",
+                                    "Choose_Level", "");
                             }
                             break;
                         case "KEY_ESCAPE":
                             EventBus.GetBus().RegisterEvent(GameEventFactory<object>
-                                .CreateGameEventForAllProcessors(GameEventType.GameStateEvent, this,
-                                    "CHANGE_STATE", "GAME_PAUSED", ""));
+                                .CreateGameEventForAllProcessors(GameEventType.WindowEvent, this,
+                                    "CLOSE_WINDOW", "", ""));
                             break;
                     }
 

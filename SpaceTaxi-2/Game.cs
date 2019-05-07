@@ -113,58 +113,17 @@ namespace SpaceTaxi_2 {
                 Console.WriteLine("Saving screenshot");
                 win.SaveScreenShot();
                 break;
-            case "KEY_UP":
-                eventBus.RegisterEvent(
-                    GameEventFactory<object>.CreateGameEventForAllProcessors(
-                        GameEventType.PlayerEvent, this, "BOOSTER_UPWARDS", "", ""));
-                break;
-            case "KEY_LEFT":
-                eventBus.RegisterEvent(
-                    GameEventFactory<object>.CreateGameEventForAllProcessors(
-                        GameEventType.PlayerEvent, this, "BOOSTER_TO_LEFT", "", ""));
-                break;
-            case "KEY_RIGHT":
-                eventBus.RegisterEvent(
-                    GameEventFactory<object>.CreateGameEventForAllProcessors(
-                        GameEventType.PlayerEvent, this, "BOOSTER_TO_RIGHT", "", ""));
-                break;
+            
             }
         }
 
-        public void KeyRelease(string key) {
-            switch (key) {
-            case "KEY_LEFT":
-                eventBus.RegisterEvent(
-                    GameEventFactory<object>.CreateGameEventForAllProcessors(
-                        GameEventType.PlayerEvent, this, "STOP_ACCELERATE_LEFT", "", ""));
-                break;
-            case "KEY_RIGHT":
-                eventBus.RegisterEvent(
-                    GameEventFactory<object>.CreateGameEventForAllProcessors(
-                        GameEventType.PlayerEvent, this, "STOP_ACCELERATE_RIGHT", "", ""));
-                break;
-            case "KEY_UP":
-                eventBus.RegisterEvent(
-                    GameEventFactory<object>.CreateGameEventForAllProcessors(
-                        GameEventType.PlayerEvent, this, "STOP_ACCELERATE_UP", "", ""));
-                break;
-            }
-        }
+        
 
         public void ProcessEvent(GameEventType eventType, GameEvent<object> gameEvent) {
             if (eventType == GameEventType.WindowEvent) {
                 switch (gameEvent.Message) {
                 case "CLOSE_WINDOW":
                     win.CloseWindow();
-                    break;
-                }
-            } else if (eventType == GameEventType.InputEvent) {
-                switch (gameEvent.Parameter1) {
-                case "KEY_PRESS":
-                    KeyPress(gameEvent.Message);
-                    break;
-                case "KEY_RELEASE":
-                    KeyRelease(gameEvent.Message);
                     break;
                 }
             }
