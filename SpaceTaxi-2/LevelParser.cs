@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using DIKUArcade.Entities;
+using DIKUArcade.Math;
 
 namespace SpaceTaxi_2 {
     public class LevelParser {
@@ -53,7 +55,8 @@ namespace SpaceTaxi_2 {
                 }
                 else if (levelFileLines[lineNum].Contains("Customer")) {
                     string temp = levelFileLines[lineNum];
-                    customers.Add(new Customer(temp.Replace("Customer: ", "")));
+                    customers.Add(new Customer(temp.Replace("Customer: ", ""),new DynamicShape(new Vec2F(0.45f,0.1f),new Vec2F(0.1f,0.1f)),
+                        new DIKUArcade.Graphics.Image(Path.Combine("Assets","Images","CustomerStandLeft.png"))));
                 }
             }
             
