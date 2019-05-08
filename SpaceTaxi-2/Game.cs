@@ -20,6 +20,7 @@ namespace SpaceTaxi_2 {
         private List<Entity> EList;
         private LevelRender levelRender;
         public LevelParser levelParser;
+        public Customer customer;
 
         public Game() {
             // window
@@ -59,6 +60,10 @@ namespace SpaceTaxi_2 {
             
             levelRender = new LevelRender();
             EList = levelRender.LevelToEntityList(level);
+            
+            // customer
+            customer = new Customer("Hello",new DynamicShape(new Vec2F(0.45f,0.1f),new Vec2F(0.1f,0.1f)),
+                new DIKUArcade.Graphics.Image(Path.Combine("Assets","Images","CustomerStandLeft.png")));
         }
         
         
@@ -86,6 +91,7 @@ namespace SpaceTaxi_2 {
                         ent.RenderEntity(); // Should render the pictures in the EList (Doesn't)
                     }
                     win.SwapBuffers();
+                    customer.Entity.RenderEntity();
                 }
 
                 if (gameTimer.ShouldReset()) {

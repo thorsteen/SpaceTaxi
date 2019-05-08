@@ -36,11 +36,24 @@ namespace SpaceTaxi_2 {
             Entity = new Entity(shape,image);
 
         }
-       
+       /// <summary>
+       /// Adds the animation for the customer walking Left
+       /// </summary>
+       /// <param name="posX"></param>
+       /// <param name="posY"></param>
+       /// <param name="extentX"></param>
+       /// <param name="extentY"></param>
         private void AddWalkingLeft(float posX, float posY, float extentX, float extentY) {
             walking.AddAnimation(new StationaryShape(posX, posY, extentX, extentY),
                 walkingLenght, new ImageStride(walkingLenght / 2, CustomerLeftStride));
         }
+       /// <summary>
+       /// Adds the animation for the customer walking Right
+       /// </summary>
+       /// <param name="posX"></param>
+       /// <param name="posY"></param>
+       /// <param name="extentX"></param>
+       /// <param name="extentY"></param>
         private void AddWalkingRight(float posX, float posY, float extentX, float extentY) {
             walking.AddAnimation(new StationaryShape(posX, posY, extentX, extentY),
                 walkingLenght, new ImageStride(walkingLenght / 2, CustomerRightStride));
