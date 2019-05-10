@@ -84,6 +84,7 @@ namespace SpaceTaxi_2 {
                 }
 
                 if (gameTimer.ShouldRender()) {
+                    Console.WriteLine("Hej");
                     win.Clear();
                     backGroundImage.RenderEntity();
                     player.RenderPlayer();
