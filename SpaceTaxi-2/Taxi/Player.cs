@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using DIKUArcade.Entities;
 using DIKUArcade.EventBus;
 using DIKUArcade.Graphics;
@@ -10,6 +11,11 @@ namespace SpaceTaxi_2.Taxi {
         private readonly Image taxiBoosterOffImageRight;
         private readonly DynamicShape shape;
         private Orientation taxiOrientation;
+        private bool LeftHeld;
+        private bool RightHeld;
+        private bool UpHeld;
+
+        public Vec2F Velocity;
 
         public Player() {
             shape = new DynamicShape(new Vec2F(), new Vec2F());
@@ -17,6 +23,7 @@ namespace SpaceTaxi_2.Taxi {
                 new Image(Path.Combine("Assets", "Images", "Taxi_Thrust_None.png"));
             taxiBoosterOffImageRight =
                 new Image(Path.Combine("Assets", "Images", "Taxi_Thrust_None_Right.png"));
+            Velocity = new Vec2F(0.0f,0.004f);
 
             Entity = new Entity(shape, taxiBoosterOffImageLeft);
         }
@@ -41,10 +48,49 @@ namespace SpaceTaxi_2.Taxi {
             Entity.RenderEntity();
         }
 
+        public void UpdateTaxi() {
+            if (LeftHeld == true) {
+                Velocity.X -= 0.0001f;
+            }
+
+            if (RightHeld == true) {
+                Velocity.X += 0.0001f;
+            }
+
+            if (UpHeld == true) {
+                Velocity.Y += 0.0001f;
+            }
+
+            Velocity.Y -= 0.00005f; //gravity
+            
+            SetPosition(shape.Position.X + Velocity.X, shape.Position.Y + Velocity.Y);
+        }
+
         public void ProcessEvent(GameEventType eventType, GameEvent<object> gameEvent) {
             if (eventType == GameEventType.PlayerEvent) {
                 switch (gameEvent.Message) {
-                // in the future, we will be handling movement here
+                
+                    case "BOOSTER_TO_LEFT":
+                        LeftHeld = true;
+                        taxiOrientation = Orientation.Left;
+                        break;
+                    case "BOOSTER_TO_RIGHT":
+                        RightHeld = true;
+                        taxiOrientation = Orientation.Right;
+                        break;
+                    case "BOOSTER_UPWARDS":
+                        UpHeld = true;
+                        break;
+                    
+                    case "STOP_ACCELERATE_LEFT":
+                        LeftHeld = false;
+                        break;
+                    case "STOP_ACCELERATE_RIGHT":
+                        RightHeld = false;
+                        break;
+                    case "STOP_ACCELERATE_UP":
+                        UpHeld = false;
+                        break;
                 }
             }
         }

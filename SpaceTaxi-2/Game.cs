@@ -90,6 +90,7 @@ namespace SpaceTaxi_2 {
 
                 while (gameTimer.ShouldUpdate()) {
                     win.PollEvents();
+                    player.UpdateTaxi();
                     eventBus.ProcessEvents();
                     
                 }
