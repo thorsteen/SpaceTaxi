@@ -15,12 +15,7 @@ namespace SpaceTaxi_2 {
         
         public GameEventBus<object> eventBus;
         private GameTimer gameTimer;
-        
         private Window win;
-        
-        
-        
-        
         public StateMachine stateMachine;
 
         public Game() {
@@ -37,32 +32,17 @@ namespace SpaceTaxi_2 {
                 GameEventType.GameStateEvent
 
             });
-       
 
             win.RegisterEventBus(eventBus);
 
             // game timer
             gameTimer = new GameTimer(60); // 60 UPS, no FPS limit
 
-            // game assets
-            
-
-            // game entities
-            
-
             // event delegation
             eventBus.Subscribe(GameEventType.InputEvent, this);
             eventBus.Subscribe(GameEventType.WindowEvent, this);
             
-            
-            /// level rendering
-            
-            
-            
-            
-            ///
             stateMachine = new StateMachine();
-            
         }
         
         
