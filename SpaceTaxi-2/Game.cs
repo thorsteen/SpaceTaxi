@@ -57,7 +57,7 @@ namespace SpaceTaxi_2 {
             // game entities
             player = new Player();
             player.SetPosition(0.45f, 0.6f);
-            player.SetExtent(0.1f, 0.1f);
+            player.SetExtent(0.08f, 0.08f);
 
             // event delegation
             eventBus.Subscribe(GameEventType.InputEvent, this);
@@ -81,7 +81,9 @@ namespace SpaceTaxi_2 {
         public void SetLevel(string levelFileName) { //sets a level
             level = levelParser.CreateLevel(levelFileName);
             EList = levelRender.LevelToEntityList(level);
-            
+            player.SetPosition(0.45f, 0.6f);
+            player.Velocity.X = 0.0f;
+            player.Velocity.Y = 0.004f;
         }
         
         public void GameLoop() {
