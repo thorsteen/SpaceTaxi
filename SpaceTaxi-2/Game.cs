@@ -70,7 +70,7 @@ namespace SpaceTaxi_2 {
             
             /// customer
             customer = new Customer("Hello",new DynamicShape(new Vec2F(0.45f,0.1f),new Vec2F(0.1f,0.1f)),
-                new DIKUArcade.Graphics.Image(Path.Combine("Assets","Images","CustomerStandLeft.png")));
+                new Image(Path.Combine("Assets","Images","CustomerStandLeft.png")));
             
             ///
             stateMachine = new StateMachine();
@@ -95,11 +95,10 @@ namespace SpaceTaxi_2 {
                 }
 
                 if (gameTimer.ShouldRender()) {
+                    
                     win.Clear();
-
-                    win.SwapBuffers();
-                    customer.Entity.RenderEntity();
                     stateMachine.ActivateState.RenderState();
+                    win.SwapBuffers();
                 }
 
                 if (gameTimer.ShouldReset()) {

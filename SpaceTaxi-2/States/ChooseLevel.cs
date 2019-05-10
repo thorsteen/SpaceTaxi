@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using DIKUArcade.Entities;
@@ -16,6 +17,11 @@ namespace SpaceTaxi_2.States {
         private Text[] menuButtons;
         private int activeMenuButton;
         private int maxMenuButton;
+        private Level level;
+        private List<Entity> EList;
+        private LevelRender levelRender;
+        public LevelParser levelParser;
+        
 
         public static ChooseLevel GetInstance() {
             return ChooseLevel.instance ?? (ChooseLevel.instance = new ChooseLevel());
@@ -33,6 +39,8 @@ namespace SpaceTaxi_2.States {
             backGroundImage = new Entity(
                 new StationaryShape(new Vec2F(0.0f, 0.0f), new Vec2F(1.0f, 1.0f)),
                 new Image(Path.Combine("Assets", "Images", "SpaceBackground.png")));
+            
+            
 
         }
 
@@ -51,12 +59,11 @@ namespace SpaceTaxi_2.States {
         public void InitializeGameState() { }
 
         public void UpdateGameLogic() {
-            Chooser();
         }
 
         public void RenderState() {
             backGroundImage.RenderEntity();
-
+            Chooser();
             foreach (var Text in menuButtons) {
                 Text.RenderText();
             }
@@ -75,7 +82,7 @@ namespace SpaceTaxi_2.States {
                     break;
                 case "KEY_ENTER":
                     if (activeMenuButton == 1) {
-                        /// mangler ordentlig implementation 
+                        /// mangler setlevel
                         EventBus.GetBus().RegisterEvent(
                             GameEventFactory<object>.CreateGameEventForAllProcessors(
                                 GameEventType.GameStateEvent,
@@ -84,7 +91,7 @@ namespace SpaceTaxi_2.States {
                                 "GAME_RUNNING", ""));
 
                     } else {
-                        /// mangler ordentlig implementation 
+                        /// mangler ordentlig setlevel
                         EventBus.GetBus().RegisterEvent(
                             GameEventFactory<object>.CreateGameEventForAllProcessors(
                                 GameEventType.GameStateEvent,

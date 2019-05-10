@@ -25,7 +25,7 @@ namespace SpaceTaxi_2.States {
                 ActivateState = GameRunning.GetInstance();
                 break;
             case GameStateType.ChooseLevel:
-                ActivateState = GameRunning.GetInstance();
+                ActivateState = ChooseLevel.GetInstance();
                 break;
             }
         }

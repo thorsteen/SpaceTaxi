@@ -1,3 +1,4 @@
+using System;
 using System.Drawing;
 using System.IO;
 using DIKUArcade.Entities;
@@ -23,7 +24,7 @@ namespace SpaceTaxi_2.States {
         public MainMenu() {
             menuButtons = new Text[] {
                 new Text("NEW GAME", new Vec2F(0.3f, 0.1f), new Vec2F(0.5f, 0.5f)),
-                new Text("Choose level", new Vec2F(0.40f, 0.0f), new Vec2F(0.5f, 0.5f))
+                new Text("CHOOSE LEVEL", new Vec2F(0.3f, 0.0f), new Vec2F(0.5f, 0.5f))
             };
             foreach (var Text in menuButtons) {
                 Text.SetColor(Color.White);
@@ -36,12 +37,15 @@ namespace SpaceTaxi_2.States {
         }
 
         public void Chooser() {
+
             if (activeMenuButton == 0) {
                 menuButtons[0].SetColor(Color.Green);
                 menuButtons[1].SetColor(Color.White);
+                Console.WriteLine(activeMenuButton);
             } else if (activeMenuButton == 1) {
                 menuButtons[1].SetColor(Color.Green);
                 menuButtons[0].SetColor(Color.White);
+                Console.WriteLine(activeMenuButton);
             }
         }
 
@@ -50,12 +54,12 @@ namespace SpaceTaxi_2.States {
         public void InitializeGameState() { }
 
         public void UpdateGameLogic() {
-            Chooser();
+
         }
 
         public void RenderState() {
             backGroundImage.RenderEntity();
-
+            Chooser();
             foreach (var Text in menuButtons) {
                 Text.RenderText();
             }
@@ -74,7 +78,6 @@ namespace SpaceTaxi_2.States {
                             break;
                         case "KEY_ENTER":
                             if (activeMenuButton == 1) {
-
                                 EventBus.GetBus().RegisterEvent(
                                     GameEventFactory<object>.CreateGameEventForAllProcessors(
                                         GameEventType.GameStateEvent,
@@ -82,13 +85,14 @@ namespace SpaceTaxi_2.States {
                                         "CHANGE_STATE",
                                         "GAME_RUNNING", ""));
                                 
-                            } else {
-                                GameEventFactory<object>.CreateGameEventForAllProcessors(
+                            }
+
+                            EventBus.GetBus().RegisterEvent(GameEventFactory<object>.CreateGameEventForAllProcessors(
                                     GameEventType.GameStateEvent,
                                     this,
                                     "CHANGE_STATE",
-                                    "Choose_Level", "");
-                            }
+                                    "Choose_Level", ""));
+                            
                             break;
                         case "KEY_ESCAPE":
                             EventBus.GetBus().RegisterEvent(GameEventFactory<object>
