@@ -1,6 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
-using SpaceTaxi_1;
+using SpaceTaxi_2;
 
 namespace TaxiTests {
     [TestFixture]
