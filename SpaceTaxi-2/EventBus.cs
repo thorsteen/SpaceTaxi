@@ -5,7 +5,7 @@ namespace SpaceTaxi_2 {
         private static GameEventBus<object> eventBus;
 
         public static GameEventBus<object> GetBus() {
-            return EventBus.eventBus ?? (EventBus.eventBus =
+            return eventBus ?? (eventBus =
                        new GameEventBus<object>());
         }
     }

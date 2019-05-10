@@ -7,6 +7,7 @@ using DIKUArcade.EventBus;
 using DIKUArcade.Graphics;
 using DIKUArcade.Math;
 using DIKUArcade.Timers;
+using SpaceTaxi_2.States;
 using SpaceTaxi_2.Taxi;
 
 namespace SpaceTaxi_2 {
@@ -21,6 +22,7 @@ namespace SpaceTaxi_2 {
         private LevelRender levelRender;
         public LevelParser levelParser;
         public Customer customer;
+        public StateMachine stateMachine;
 
         public Game() {
             // window
@@ -33,9 +35,13 @@ namespace SpaceTaxi_2 {
             eventBus.InitializeEventBus(new List<GameEventType> {
                 GameEventType.InputEvent, // key press / key release
                 GameEventType.WindowEvent, // messages to the window, e.g. CloseWindow()
-                GameEventType.PlayerEvent // commands issued to the player object, e.g. move,
+                GameEventType.PlayerEvent, // commands issued to the player object, e.g. move,
                                           // destroy, receive health, etc.
+                GameEventType.GameStateEvent
+
             });
+       
+
             win.RegisterEventBus(eventBus);
 
             // game timer
@@ -58,12 +64,17 @@ namespace SpaceTaxi_2 {
             eventBus.Subscribe(GameEventType.WindowEvent, this);
             eventBus.Subscribe(GameEventType.PlayerEvent, player);
             
+            /// level rendering
             levelRender = new LevelRender();
             EList = levelRender.LevelToEntityList(level);
             
-            // customer
+            /// customer
             customer = new Customer("Hello",new DynamicShape(new Vec2F(0.45f,0.1f),new Vec2F(0.1f,0.1f)),
                 new DIKUArcade.Graphics.Image(Path.Combine("Assets","Images","CustomerStandLeft.png")));
+            
+            ///
+            stateMachine = new StateMachine();
+            
         }
         
         
@@ -84,15 +95,11 @@ namespace SpaceTaxi_2 {
                 }
 
                 if (gameTimer.ShouldRender()) {
-                    Console.WriteLine("Hej");
                     win.Clear();
-                    backGroundImage.RenderEntity();
-                    player.RenderPlayer();
-                    foreach (Entity ent in EList) {
-                        ent.RenderEntity(); // Should render the pictures in the EList (Doesn't)
-                    }
+
                     win.SwapBuffers();
                     customer.Entity.RenderEntity();
+                    stateMachine.ActivateState.RenderState();
                 }
 
                 if (gameTimer.ShouldReset()) {
