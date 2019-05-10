@@ -41,11 +41,9 @@ namespace SpaceTaxi_2.States {
             if (activeMenuButton == 0) {
                 menuButtons[0].SetColor(Color.Green);
                 menuButtons[1].SetColor(Color.White);
-                Console.WriteLine(activeMenuButton);
             } else if (activeMenuButton == 1) {
                 menuButtons[1].SetColor(Color.Green);
                 menuButtons[0].SetColor(Color.White);
-                Console.WriteLine(activeMenuButton);
             }
         }
 
