@@ -13,7 +13,7 @@ namespace SpaceTaxi_2.States {
     public class GameRunning : IGameState{
         
         public GameEventBus<object> eventBus;
-        private List<Entity> EList;
+        private EntityContainer EList;
         private Entity backGroundImage;
         
         private Player player;
@@ -57,7 +57,7 @@ namespace SpaceTaxi_2.States {
         }
 
         public void DetectCollision() {
-            foreach (var wall in EList) {
+            foreach (Entity wall in EList) {
                 if (CollisionDetection.Aabb(player.Entity.Shape.AsDynamicShape(),wall.Shape).Collision) {
                     Console.WriteLine("You dead");
                 }
@@ -80,10 +80,8 @@ namespace SpaceTaxi_2.States {
         }
 
         public void RenderState() {
-            foreach (var texture in EList) {
-                texture.RenderEntity();
-                player.RenderPlayer();
-            }
+            player.RenderPlayer();
+            EList.RenderEntities();    
         }
         
         public void SetLevel(string levelFileName) { //sets a level
