@@ -14,18 +14,17 @@ namespace SpaceTaxi_2.Taxi {
         private bool LeftHeld;
         private bool RightHeld;
         private bool UpHeld;
-
         public Vec2F Velocity;
 
         public Player() {
             shape = new DynamicShape(new Vec2F(), new Vec2F());
             taxiBoosterOffImageLeft =
-                new Image(Path.Combine("Assets", "Images", "Taxi_Thrust_None.png"));
+                TaxiImages.TaxiThrustNone();
             taxiBoosterOffImageRight =
-                new Image(Path.Combine("Assets", "Images", "Taxi_Thrust_None_Right.png"));
+                TaxiImages.TaxiThrustNoneRight();
             Velocity = new Vec2F(0.0f,0.004f);
 
-            Entity = new Entity(shape, taxiBoosterOffImageLeft);
+            Entity = new Entity(shape, TaxiImages.TaxiThrustNone());
         }
 
         public Entity Entity { get; }
@@ -45,7 +44,7 @@ namespace SpaceTaxi_2.Taxi {
             Entity.Image = taxiOrientation == Orientation.Left
                 ? taxiBoosterOffImageLeft
                 : taxiBoosterOffImageRight;
-            Entity.RenderEntity();
+            Entity.RenderEntity();            
         }
 
         public void UpdateTaxi() {

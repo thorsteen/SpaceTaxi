@@ -52,9 +52,9 @@ namespace SpaceTaxi_2 {
             while (win.IsRunning()) {
                 gameTimer.MeasureTime();
 
-                while (gameTimer.ShouldUpdate()) {
-                    stateMachine.ActivateState.UpdateGameLogic();
+                while (gameTimer.ShouldUpdate()) {                   
                     win.PollEvents();
+                    stateMachine.ActivateState.UpdateGameLogic();
                     eventBus.ProcessEvents();
                     
                 }

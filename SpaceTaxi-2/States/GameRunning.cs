@@ -5,6 +5,7 @@ using DIKUArcade.Entities;
 using DIKUArcade.EventBus;
 using DIKUArcade.Graphics;
 using DIKUArcade.Math;
+using DIKUArcade.Physics;
 using DIKUArcade.State;
 using SpaceTaxi_2.Taxi;
 
@@ -54,6 +55,17 @@ namespace SpaceTaxi_2.States {
         public static GameRunning GetInstance() {
             return GameRunning.instance ?? (GameRunning.instance = new GameRunning());
         }
+
+        public void DetectCollision() {
+            foreach (var wall in EList) {
+                if (CollisionDetection.Aabb(player.Entity.Shape.AsDynamicShape(),wall.Shape).Collision) {
+                    Console.WriteLine("You dead");
+                }
+
+                    
+            }         
+        }
+
         public void GameLoop() {
         }
 
@@ -63,6 +75,7 @@ namespace SpaceTaxi_2.States {
 
         public void UpdateGameLogic() {
             player.UpdateTaxi();
+            DetectCollision();
 
         }
 
