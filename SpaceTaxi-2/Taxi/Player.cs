@@ -75,8 +75,10 @@ namespace SpaceTaxi_2.Taxi {
             }
 
             Velocity.Y -= 0.00005f; //gravity
-            
-            SetPosition(shape.Position.X + Velocity.X, shape.Position.Y + Velocity.Y);
+
+            Entity.Shape.AsDynamicShape().Direction = Velocity;
+
+            Entity.Shape.AsDynamicShape().Move();
         }
 
         public void ProcessEvent(GameEventType eventType, GameEvent<object> gameEvent) {
