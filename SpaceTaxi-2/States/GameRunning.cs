@@ -59,10 +59,9 @@ namespace SpaceTaxi_2.States {
         public void DetectCollision() {
             foreach (Entity wall in EList) {
                 if (CollisionDetection.Aabb(player.Entity.Shape.AsDynamicShape(),wall.Shape).Collision) {
+                    player.Entity.DeleteEntity();
                     Console.WriteLine("You dead");
-                }
-
-                    
+                }      
             }         
         }
 
