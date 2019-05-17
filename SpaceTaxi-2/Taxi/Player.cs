@@ -50,15 +50,16 @@ namespace SpaceTaxi_2.Taxi {
                 : taxiBoosterOffImageRight;
             Entity.RenderEntity();
 
-           /* if (UpHeld) {
+            if (UpHeld) {
                 ThrusterStrides = ImageStride.CreateStrides(2,
-                    Path.Combine("Assests", "Images", "Taxi_Thrust_Bottom.png"));
+                    Path.Combine("Assets", "Images", "Taxi_Thrust_Bottom.png"));
                 Thrusters.AddAnimation(new DynamicShape(new Vec2F(this.Entity.Shape.Position.X,
                     this.Entity.Shape.Position.Y), new Vec2F(this.Entity.Shape.Extent.X, this.Entity
                     .Shape.Extent.Y)), 500, new ImageStride(500 / 2, ThrusterStrides));
                 TaxiImages.TaxiThrustBottom().GetTexture()
-                    .Render(new DynamicShape(new Vec2F(0.5f, 0.5f), new Vec2F(0.1f, 0.1f)));*/
-            
+                    .Render(new DynamicShape(new Vec2F(0.5f, 0.5f), new Vec2F(0.1f, 0.1f)));
+            }
+
         }
 
         public void UpdateTaxi() {
