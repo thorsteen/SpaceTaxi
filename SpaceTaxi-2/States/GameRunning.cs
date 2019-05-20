@@ -67,21 +67,28 @@ namespace SpaceTaxi_2.States {
         public void DetectCollision() {
             foreach (Entity wall in EList) {
 
-                if (CollisionDetection.Aabb(player.Entity.Shape.AsDynamicShape(),wall.Shape).Collision) {
-                    player.Entity.DeleteEntity();
-                    Console.WriteLine("Your are dead!");
-                    EventBus.GetBus().RegisterEvent(
-                        GameEventFactory<object>.CreateGameEventForAllProcessors(
-                            GameEventType.GameStateEvent,
-                            this,
-                            "CHANGE_STATE",
-                            "MAIN_MENU", ""));
-                    player = new Player();
-                    player.SetPosition(0.45f, 0.6f);
-                    player.SetExtent(0.08f, 0.08f);
-                    eventBus.Subscribe(GameEventType.PlayerEvent, player);
+                if (CollisionDetection.Aabb(player.Entity.Shape.AsDynamicShape(),wall.Shape).Collision) { //if player hits wall
+                    int mapPosX = Convert.ToInt32(wall.Shape.Position.X*40-1);
+                    int mapPosY = Convert.ToInt32(22-wall.Shape.Position.Y*23);
 
+                    if (level.platforms.Contains(level.map[mapPosY][mapPosX]) //if hit object is a platform...
+                        && Math.Sqrt(player.Velocity.X*player.Velocity.X+player.Velocity.Y*player.Velocity.Y) < 0.002f) { //...and not moving too fast
+                        player.Velocity.Y = 0; //ved stadig ikke hvordan jeg får taxi'en til at lande ordentligt
+                    } else { //player dead
+                        player.Entity.DeleteEntity();
+                        Console.WriteLine("Your are dead!");
+                        EventBus.GetBus().RegisterEvent(
+                            GameEventFactory<object>.CreateGameEventForAllProcessors(
+                                GameEventType.GameStateEvent,
+                                this,
+                                "CHANGE_STATE",
+                                "MAIN_MENU", ""));
+                        player = new Player();
+                        player.SetPosition(0.45f, 0.6f);
+                        player.SetExtent(0.08f, 0.08f);
+                        eventBus.Subscribe(GameEventType.PlayerEvent, player);
 
+                    }
                 }
             }
 
