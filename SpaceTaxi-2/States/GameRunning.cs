@@ -24,21 +24,18 @@ namespace SpaceTaxi_2.States {
         
         private static GameRunning instance = null;
 
+        public static LevelController levelController;
+
         public GameRunning() {
             eventBus = EventBus.GetBus();
             
-            levelParser = new LevelParser();
-            level = levelParser.CreateLevel("the-beach.txt");
-            
+
             player = new Player();
             player.SetPosition(0.45f, 0.6f);
             player.SetExtent(0.08f, 0.08f);
             
             eventBus.Subscribe(GameEventType.PlayerEvent, player);
-            
-            levelRender = new LevelRender();
-            EList = levelRender.LevelToEntityList(level);
-            
+
             backGroundImage = new Entity(
                 new StationaryShape(new Vec2F(0.0f, 0.0f), new Vec2F(1.0f, 1.0f)),
                 new Image(Path.Combine("Assets", "Images", "SpaceBackground.png"))
@@ -48,7 +45,15 @@ namespace SpaceTaxi_2.States {
             /// customer
             customer = new Customer("Hello",new DynamicShape(new Vec2F(0.45f,0.1f),new Vec2F(0.1f,0.1f)),
                 new Image(Path.Combine("Assets","Images","CustomerStandLeft.png")));
-            
+
+            levelController = StateMachine.levelController;
+            levelParser = new LevelParser();
+            level = levelParser.CreateLevel(levelController.returnLevel());
+            ///level = levelParser.CreateLevel("the-beach.txt");
+            levelRender = new LevelRender();
+            EList = levelRender.LevelToEntityList(level);
+
+
         }
 
         
@@ -114,9 +119,6 @@ namespace SpaceTaxi_2.States {
                                             GameEventFactory<object>.CreateGameEventForAllProcessors(
                                                 GameEventType.PlayerEvent, this, "STOP_ACCELERATE_UP", "", ""));
                                         break;
-                    
-                
-                    
                 }
 
                 break;
@@ -148,8 +150,12 @@ namespace SpaceTaxi_2.States {
                                       Console.WriteLine("Changing level to THE BEACH");
                                       SetLevel("short-n-sweet.txt");
                                       break;
+                                  case "KEY_ESCAPE":
+                                      EventBus.GetBus().RegisterEvent(GameEventFactory<object>
+                                          .CreateGameEventForAllProcessors(GameEventType.WindowEvent, this,
+                                              "CLOSE_WINDOW", "", ""));
+                                      break;
                 }
-
                 break;
           }
         }
