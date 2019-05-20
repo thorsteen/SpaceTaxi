@@ -57,7 +57,7 @@ namespace SpaceTaxi_2.Taxi {
                     this.Entity.Shape.Position.Y), new Vec2F(this.Entity.Shape.Extent.X, this.Entity
                     .Shape.Extent.Y)), 500, new ImageStride(500 / 2, ThrusterStrides));
                 TaxiImages.TaxiThrustBottom().GetTexture()
-                    .Render(new DynamicShape(new Vec2F(0.5f, 0.5f), new Vec2F(0.1f, 0.1f)));
+                    .Render(new DynamicShape(new Vec2F(this.Entity.Shape.Position.X, this.Entity.Shape.Position.Y), new Vec2F(0.1f, 0.1f)));
             }
 
         }
