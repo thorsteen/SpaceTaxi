@@ -13,8 +13,8 @@ namespace SpaceTaxi_2 {
         /// </summary>
         /// <param name="level"></param>
         /// <returns>List_Entity </returns>
-        public List<Entity> LevelToEntityList(Level level) {
-            List<Entity> listEntity = new List<Entity>();
+        public EntityContainer LevelToEntityList(Level level) {
+            EntityContainer listEntity = new EntityContainer();
             for (int i = 0; i < 23; i++) {
                 for (int j = 0; j < 40; j++) {
                     
@@ -26,7 +26,11 @@ namespace SpaceTaxi_2 {
                             Vec2F(
                                 1f / 40f,
                                 1f / 23f)), new Image(Path.Combine("Assets", "Images", fileName)));
-                        listEntity.Add(entity);
+                        listEntity.AddStationaryEntity(new StationaryShape(new Vec2F(1f / 40f * j, 22f/23f - (1f / 
+                                                                                              23f * i)), new 
+                            Vec2F(
+                                1f / 40f,
+                                1f / 23f)),new Image(Path.Combine("Assets", "Images", fileName)));
                     }
                     
                 }

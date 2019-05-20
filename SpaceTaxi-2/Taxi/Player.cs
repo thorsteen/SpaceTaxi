@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using DIKUArcade.Entities;
 using DIKUArcade.EventBus;
@@ -14,18 +15,20 @@ namespace SpaceTaxi_2.Taxi {
         private bool LeftHeld;
         private bool RightHeld;
         private bool UpHeld;
-
         public Vec2F Velocity;
+        public AnimationContainer Thrusters;
+        public List<Image> ThrusterStrides;
 
         public Player() {
             shape = new DynamicShape(new Vec2F(), new Vec2F());
             taxiBoosterOffImageLeft =
-                new Image(Path.Combine("Assets", "Images", "Taxi_Thrust_None.png"));
+                TaxiImages.TaxiThrustNone();
             taxiBoosterOffImageRight =
-                new Image(Path.Combine("Assets", "Images", "Taxi_Thrust_None_Right.png"));
+                TaxiImages.TaxiThrustNoneRight();
             Velocity = new Vec2F(0.0f,0.004f);
 
-            Entity = new Entity(shape, taxiBoosterOffImageLeft);
+            Entity = new Entity(shape, TaxiImages.TaxiThrustNone());
+            Thrusters = new AnimationContainer(500);
         }
 
         public Entity Entity { get; }
@@ -46,6 +49,17 @@ namespace SpaceTaxi_2.Taxi {
                 ? taxiBoosterOffImageLeft
                 : taxiBoosterOffImageRight;
             Entity.RenderEntity();
+
+            if (UpHeld) {
+                ThrusterStrides = ImageStride.CreateStrides(2,
+                    Path.Combine("Assets", "Images", "Taxi_Thrust_Bottom.png"));
+                Thrusters.AddAnimation(new DynamicShape(new Vec2F(this.Entity.Shape.Position.X,
+                    this.Entity.Shape.Position.Y), new Vec2F(this.Entity.Shape.Extent.X, this.Entity
+                    .Shape.Extent.Y)), 500, new ImageStride(500 / 2, ThrusterStrides));
+                TaxiImages.TaxiThrustBottom().GetTexture()
+                    .Render(new DynamicShape(new Vec2F(0.5f, 0.5f), new Vec2F(0.1f, 0.1f)));
+            }
+
         }
 
         public void UpdateTaxi() {
@@ -62,8 +76,10 @@ namespace SpaceTaxi_2.Taxi {
             }
 
             Velocity.Y -= 0.00005f; //gravity
-            
-            SetPosition(shape.Position.X + Velocity.X, shape.Position.Y + Velocity.Y);
+
+            Entity.Shape.AsDynamicShape().Direction = Velocity;
+
+            Entity.Shape.AsDynamicShape().Move();
         }
 
         public void ProcessEvent(GameEventType eventType, GameEvent<object> gameEvent) {

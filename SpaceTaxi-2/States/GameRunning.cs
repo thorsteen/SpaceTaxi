@@ -5,6 +5,7 @@ using DIKUArcade.Entities;
 using DIKUArcade.EventBus;
 using DIKUArcade.Graphics;
 using DIKUArcade.Math;
+using DIKUArcade.Physics;
 using DIKUArcade.State;
 using SpaceTaxi_2.Taxi;
 
@@ -12,7 +13,7 @@ namespace SpaceTaxi_2.States {
     public class GameRunning : IGameState{
         
         public GameEventBus<object> eventBus;
-        private List<Entity> EList;
+        private EntityContainer EList;
         private Entity backGroundImage;
         
         private Player player;
@@ -59,6 +60,19 @@ namespace SpaceTaxi_2.States {
         public static GameRunning GetInstance() {
             return GameRunning.instance ?? (GameRunning.instance = new GameRunning());
         }
+
+        public void DetectCollision() {
+            foreach (Entity wall in EList) {
+                //Console.WriteLine(player.Entity.IsDeleted());
+                
+                if (CollisionDetection.Aabb(player.Entity.Shape.AsDynamicShape(),wall.Shape).Collision) {
+                    player.Entity.DeleteEntity();
+                    Console.WriteLine("You dead");
+                    //Console.WriteLine(player.Entity.IsDeleted());
+                }      
+            }         
+        }
+
         public void GameLoop() {
         }
 
@@ -68,14 +82,16 @@ namespace SpaceTaxi_2.States {
 
         public void UpdateGameLogic() {
             player.UpdateTaxi();
+            DetectCollision();
 
         }
 
         public void RenderState() {
-            foreach (var texture in EList) {
-                texture.RenderEntity();
+            if (!player.Entity.IsDeleted()) {
                 player.RenderPlayer();
+
             }
+            EList.RenderEntities();    
         }
         
         public void SetLevel(string levelFileName) { //sets a level
