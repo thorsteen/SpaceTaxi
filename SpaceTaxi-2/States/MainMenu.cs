@@ -33,7 +33,7 @@ namespace SpaceTaxi_2.States {
             backGroundImage = new Entity(
                 new StationaryShape(new Vec2F(0.0f, 0.0f), new Vec2F(1.0f, 1.0f)),
                 new Image(Path.Combine("Assets", "Images", "SpaceBackground.png")));
-
+            
         }
 
         public void Chooser() {
@@ -84,13 +84,15 @@ namespace SpaceTaxi_2.States {
                                         "GAME_RUNNING", ""));
                                 
                             }
+                            else {
+                                EventBus.GetBus().RegisterEvent(
+                                    GameEventFactory<object>.CreateGameEventForAllProcessors(
+                                        GameEventType.GameStateEvent,
+                                        this,
+                                        "CHANGE_STATE",
+                                        "Choose_Level", ""));
+                            }
 
-                            EventBus.GetBus().RegisterEvent(GameEventFactory<object>.CreateGameEventForAllProcessors(
-                                    GameEventType.GameStateEvent,
-                                    this,
-                                    "CHANGE_STATE",
-                                    "Choose_Level", ""));
-                            
                             break;
                         case "KEY_ESCAPE":
                             EventBus.GetBus().RegisterEvent(GameEventFactory<object>

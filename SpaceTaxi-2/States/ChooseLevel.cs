@@ -21,6 +21,7 @@ namespace SpaceTaxi_2.States {
         private List<Entity> EList;
         private LevelRender levelRender;
         public LevelParser levelParser;
+        public LevelController levelController;
         
 
         public static ChooseLevel GetInstance() {
@@ -39,8 +40,8 @@ namespace SpaceTaxi_2.States {
             backGroundImage = new Entity(
                 new StationaryShape(new Vec2F(0.0f, 0.0f), new Vec2F(1.0f, 1.0f)),
                 new Image(Path.Combine("Assets", "Images", "SpaceBackground.png")));
-            
-            
+
+            levelController = StateMachine.levelController;
 
         }
 
@@ -73,16 +74,20 @@ namespace SpaceTaxi_2.States {
         public void HandleKeyEvent(string keyValue, string keyAction) {
             switch (keyValue) {
             case "KEY_PRESS":
+                
                 switch (keyAction) {
                 case "KEY_UP":
                     activeMenuButton = 1;
                     break;
+                
                 case "KEY_DOWN":
                     activeMenuButton = 0;
                     break;
+                
                 case "KEY_ENTER":
-                    if (activeMenuButton == 1) {
-                        /// mangler setlevel
+                    if (activeMenuButton == 1)
+                    {
+                        levelController.setLevel(activeMenuButton);
                         EventBus.GetBus().RegisterEvent(
                             GameEventFactory<object>.CreateGameEventForAllProcessors(
                                 GameEventType.GameStateEvent,
@@ -91,17 +96,16 @@ namespace SpaceTaxi_2.States {
                                 "GAME_RUNNING", ""));
 
                     } else {
-                        /// mangler ordentlig setlevel
+                        levelController.setLevel(activeMenuButton);
                         EventBus.GetBus().RegisterEvent(
                             GameEventFactory<object>.CreateGameEventForAllProcessors(
                                 GameEventType.GameStateEvent,
                                 this,
                                 "CHANGE_STATE",
                                 "GAME_RUNNING", ""));
-                
                     }
-
                     break;
+                
                 case "KEY_ESCAPE":
                     EventBus.GetBus().RegisterEvent(GameEventFactory<object>
                         .CreateGameEventForAllProcessors(GameEventType.WindowEvent, this,

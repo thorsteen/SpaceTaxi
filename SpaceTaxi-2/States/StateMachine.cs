@@ -2,15 +2,23 @@ using DIKUArcade.EventBus;
 using DIKUArcade.State;
 
 namespace SpaceTaxi_2.States {
-    public class StateMachine : IGameEventProcessor<object> {
+    public class StateMachine : IGameEventProcessor<object>
+    {
+        public static LevelController levelController;
+        
+        
         public IGameState ActivateState { get; private set; }
 
         public StateMachine() {
+            
+            levelController = new LevelController();
+
             EventBus.GetBus().Subscribe(GameEventType.GameStateEvent, this);
             EventBus.GetBus().Subscribe(GameEventType.InputEvent, this);
             EventBus.GetBus().Subscribe(GameEventType.PlayerEvent, this);
 
             ActivateState = MainMenu.GetInstance();
+            
         }
 
         private void SwitchState(GameStateType stateType) {
@@ -23,17 +31,19 @@ namespace SpaceTaxi_2.States {
                 break;
             case GameStateType.GameRunning:
                 ActivateState = GameRunning.GetInstance();
+                
                 break;
             case GameStateType.ChooseLevel:
                 ActivateState = ChooseLevel.GetInstance();
                 break;
             }
         }
-
+        
         public void ProcessEvent(GameEventType eventType, GameEvent<object> gameEvent) {
             
-            if (eventType == GameEventType.GameStateEvent) {
-                
+            if (eventType == GameEventType.GameStateEvent)
+            {
+
                 SwitchState(StateTransformer.TransformStringToState(gameEvent.Parameter1));
                 
             }
