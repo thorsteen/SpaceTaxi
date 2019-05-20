@@ -49,22 +49,31 @@ namespace SpaceTaxi_2.Taxi {
                 : taxiBoosterOffImageRight;
             Entity.RenderEntity();
 
-            if (UpHeld) {
+            if (UpHeld && taxiOrientation == Orientation.Left) {
                 ThrusterStrides = ImageStride.CreateStrides(2,
                     Path.Combine("Assets", "Images", "Taxi_Thrust_Bottom.png"));
                 Thrusters.AddAnimation(new DynamicShape(new Vec2F(this.Entity.Shape.Position.X,
                     this.Entity.Shape.Position.Y), new Vec2F(this.Entity.Shape.Extent.X, this.Entity
-                    .Shape.Extent.Y)), 500, new ImageStride(500 / 2, ThrusterStrides));
+                    .Shape.Extent.Y)), 500, new ImageStride(500 / 8, ThrusterStrides));
+                TaxiImages.TaxiThrustBottom().GetTexture()
+                    .Render(new DynamicShape(new Vec2F(this.Entity.Shape.Position.X, this.Entity.Shape.Position.Y), new Vec2F(0.1f, 0.08f)));
+            }
+            if (UpHeld && taxiOrientation == Orientation.Right) {
+                ThrusterStrides = ImageStride.CreateStrides(2,
+                    Path.Combine("Assets", "Images", "Taxi_Thrust_Bottom_Right.png"));
+                Thrusters.AddAnimation(new DynamicShape(new Vec2F(this.Entity.Shape.Position.X,
+                    this.Entity.Shape.Position.Y), new Vec2F(this.Entity.Shape.Extent.X, this.Entity
+                    .Shape.Extent.Y)), 500, new ImageStride(500 / 8, ThrusterStrides));
                 TaxiImages.TaxiThrustBottom().GetTexture()
                     .Render(new DynamicShape(new Vec2F(this.Entity.Shape.Position.X, this.Entity.Shape.Position.Y), new Vec2F(0.1f, 0.08f)));
             }
             
             if (LeftHeld) {
                 ThrusterStrides = ImageStride.CreateStrides(2,
-                    Path.Combine("Assets", "Images", "Taxi_Thrust_Back_Right.png"));
+                    Path.Combine("Assets", "Images", "Taxi_Thrust_Back.png"));
                 Thrusters.AddAnimation(new DynamicShape(new Vec2F(this.Entity.Shape.Position.X,
                     this.Entity.Shape.Position.Y), new Vec2F(this.Entity.Shape.Extent.X, this.Entity
-                    .Shape.Extent.Y)), 500, new ImageStride(500 / 2, ThrusterStrides));
+                    .Shape.Extent.Y)), 500, new ImageStride(500 / 8, ThrusterStrides));
                 TaxiImages.TaxiThrustBottom().GetTexture()
                     .Render(new DynamicShape(new Vec2F(this.Entity.Shape.Position.X, this.Entity.Shape.Position.Y), new Vec2F(0.1f, 0.08f)));
             }
@@ -74,7 +83,7 @@ namespace SpaceTaxi_2.Taxi {
                     Path.Combine("Assets", "Images", "Taxi_Thrust_Back_Right.png"));
                 Thrusters.AddAnimation(new DynamicShape(new Vec2F(this.Entity.Shape.Position.X,
                     this.Entity.Shape.Position.Y), new Vec2F(this.Entity.Shape.Extent.X, this.Entity
-                    .Shape.Extent.Y)), 500, new ImageStride(500 / 2, ThrusterStrides));
+                    .Shape.Extent.Y)), 500, new ImageStride(500 / 8, ThrusterStrides));
                 TaxiImages.TaxiThrustBottom().GetTexture()
                     .Render(new DynamicShape(new Vec2F(this.Entity.Shape.Position.X, this.Entity.Shape.Position.Y), new Vec2F(0.1f, 0.08f)));
             }
