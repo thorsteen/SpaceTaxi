@@ -44,7 +44,6 @@ namespace SpaceTaxi_2.Taxi {
         }
 
         public void RenderPlayer() {
-            //TODO: Next version needs animation. Skipped for clarity.
             Entity.Image = taxiOrientation == Orientation.Left
                 ? taxiBoosterOffImageLeft
                 : taxiBoosterOffImageRight;

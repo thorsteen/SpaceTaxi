@@ -26,6 +26,8 @@ namespace SpaceTaxi_2.States {
 
         public static LevelController levelController;
 
+        private string levelFileName;
+
         public GameRunning() {
             eventBus = EventBus.GetBus();
             
@@ -45,32 +47,42 @@ namespace SpaceTaxi_2.States {
             /// customer
             customer = new Customer("Hello",new DynamicShape(new Vec2F(0.45f,0.1f),new Vec2F(0.1f,0.1f)),
                 new Image(Path.Combine("Assets","Images","CustomerStandLeft.png")));
-
+            
+            /// Level creation
             levelController = StateMachine.levelController;
             levelParser = new LevelParser();
-            level = levelParser.CreateLevel(levelController.returnLevel());
-            ///level = levelParser.CreateLevel("the-beach.txt");
+            levelFileName = levelController.returnLevel();
+            level = levelParser.CreateLevel(levelFileName);
             levelRender = new LevelRender();
             EList = levelRender.LevelToEntityList(level);
-
-
+            
         }
 
-        
         public static GameRunning GetInstance() {
             return GameRunning.instance ?? (GameRunning.instance = new GameRunning());
         }
 
         public void DetectCollision() {
             foreach (Entity wall in EList) {
-                //Console.WriteLine(player.Entity.IsDeleted());
                 
                 if (CollisionDetection.Aabb(player.Entity.Shape.AsDynamicShape(),wall.Shape).Collision) {
                     player.Entity.DeleteEntity();
-                    Console.WriteLine("You dead");
-                    //Console.WriteLine(player.Entity.IsDeleted());
-                }      
-            }         
+                    Console.WriteLine("Your are dead!");
+                    EventBus.GetBus().RegisterEvent(
+                        GameEventFactory<object>.CreateGameEventForAllProcessors(
+                            GameEventType.GameStateEvent,
+                            this,
+                            "CHANGE_STATE",
+                            "MAIN_MENU", ""));
+                    player = new Player();
+                    player.SetPosition(0.45f, 0.6f);
+                    player.SetExtent(0.08f, 0.08f);
+                    eventBus.Subscribe(GameEventType.PlayerEvent, player);
+
+
+                }
+            }
+            
         }
 
         public void GameLoop() {
@@ -82,6 +94,14 @@ namespace SpaceTaxi_2.States {
 
         public void UpdateGameLogic() {
             player.UpdateTaxi();
+            if (player.Entity.Shape.Position.Y > 0.95) {
+                if (levelFileName == "the-beach.txt") {
+                    levelFileName = "short-n-sweet.txt";
+                } else {
+                    levelFileName = "the-beach.txt";
+                }
+                SetLevel(levelFileName);
+            }
             DetectCollision();
 
         }
