@@ -55,15 +55,13 @@ namespace SpaceTaxi_2.States {
         public static GameRunning GetInstance() {
             return GameRunning.instance ?? (GameRunning.instance = new GameRunning());
         }
-
+        /// <summary>
+        /// Checks if the player hits any wall ( so to say, the taxi is not able to land either ). 
+        /// </summary>
         public void DetectCollision() {
             foreach (Entity wall in EList) {
-                //Console.WriteLine(player.Entity.IsDeleted());
-                
                 if (CollisionDetection.Aabb(player.Entity.Shape.AsDynamicShape(),wall.Shape).Collision) {
                     player.Entity.DeleteEntity();
-                    Console.WriteLine("You dead");
-                    //Console.WriteLine(player.Entity.IsDeleted());
                 }      
             }         
         }
