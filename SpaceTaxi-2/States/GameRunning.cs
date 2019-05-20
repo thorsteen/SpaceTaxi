@@ -82,7 +82,6 @@ namespace SpaceTaxi_2.States {
         public void RenderState() {
             if (!player.Entity.IsDeleted()) {
                 player.RenderPlayer();
-
             }
             EList.RenderEntities();    
         }
