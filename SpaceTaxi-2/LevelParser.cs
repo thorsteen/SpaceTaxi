@@ -82,7 +82,7 @@ namespace SpaceTaxi_2 {
         /// <param name="filename">Filename of the level.</param>
         /// <returns>Directory path of the level.</returns>
         /// <exception cref="FileNotFoundException">File does not exist.</exception>
-        private string GetLevelFilePath(string filename) {
+        public string GetLevelFilePath(string filename) {
             // Find base path.
             DirectoryInfo dir = new DirectoryInfo(Path.GetDirectoryName(
                 System.Reflection.Assembly.GetExecutingAssembly().Location));

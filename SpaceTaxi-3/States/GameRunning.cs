@@ -67,7 +67,7 @@ namespace SpaceTaxi_3.States {
             foreach (Entity wall in EList) {
 
                 if (CollisionDetection.Aabb(player.Entity.Shape.AsDynamicShape(),wall.Shape).Collision) { //if player hits wall
-                    int mapPosX = Convert.ToInt32(wall.Shape.Position.X*40-1);
+                    int mapPosX = Convert.ToInt32(wall.Shape.Position.X*40);
                     int mapPosY = Convert.ToInt32(22-wall.Shape.Position.Y*23);
 
                     if (level.platforms.Contains(level.map[mapPosY][mapPosX]) //if hit object is a platform...
