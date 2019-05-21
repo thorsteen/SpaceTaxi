@@ -74,6 +74,8 @@ namespace SpaceTaxi_2.States {
                     if (level.platforms.Contains(level.map[mapPosY][mapPosX]) //if hit object is a platform...
                         && Math.Sqrt(player.Velocity.X*player.Velocity.X+player.Velocity.Y*player.Velocity.Y) < 0.002f) { //...and not moving too fast
                         player.Velocity.Y = 0; //ved stadig ikke hvordan jeg får taxi'en til at lande ordentligt
+                      
+                        player.Landed = true;
                     } else { //player dead
                         player.Entity.DeleteEntity();
                         Console.WriteLine("Your are dead!");

@@ -18,6 +18,7 @@ namespace SpaceTaxi_2.Taxi {
         public Vec2F Velocity;
         public AnimationContainer Thrusters;
         public List<Image> ThrusterStrides;
+        public bool Landed;
 
         public Player() {
             shape = new DynamicShape(new Vec2F(), new Vec2F());
@@ -26,6 +27,7 @@ namespace SpaceTaxi_2.Taxi {
             taxiBoosterOffImageRight =
                 TaxiImages.TaxiThrustNoneRight();
             Velocity = new Vec2F(0.0f,0.004f);
+            Landed = false;
 
             Entity = new Entity(shape, TaxiImages.TaxiThrustNone());
             Thrusters = new AnimationContainer(500);
@@ -102,8 +104,21 @@ namespace SpaceTaxi_2.Taxi {
             if (UpHeld == true) {
                 Velocity.Y += 0.0001f;
             }
+            
+            
 
-            Velocity.Y -= 0.00005f; //gravity
+            if (Velocity.Y > 0f) {
+                Landed = false; //Taxi is not landed if it is moving upward
+            }
+
+            if (Landed) {
+                Velocity.X = 0f; //Taxi cannot glide on platform
+            } else {
+                Velocity.Y -= 0.00005f; //gravity
+            }
+            
+            
+
 
             Entity.Shape.AsDynamicShape().Direction = Velocity;
 
