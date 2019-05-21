@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO;
 using DIKUArcade.Graphics;
 
@@ -7,6 +8,13 @@ namespace SpaceTaxi_2.Taxi {
         public static Image TaxiThrustBackRight() {
             Image newImage = new Image(Path.Combine("Assets","Images", "Taxi_Thrust_Back_Right.png"));
             return newImage;
+        }
+
+        public static ImageStride TaxiThrustBackRightIS() {
+            List<Image> imgList = new List<Image>();
+            imgList.Add(TaxiImages.TaxiThrustBackRight());
+            ImageStride newStride = new ImageStride(200,imgList);
+            return newStride;
         }
 
         public static Image TaxiThrustBack() {
