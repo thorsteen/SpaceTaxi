@@ -1,6 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
+using System.Threading;
+using System.Timers;
+using DIKUArcade;
 using DIKUArcade.Entities;
 using DIKUArcade.EventBus;
 using DIKUArcade.Graphics;
@@ -8,6 +12,8 @@ using DIKUArcade.Math;
 using DIKUArcade.Physics;
 using DIKUArcade.State;
 using SpaceTaxi_2.Taxi;
+using Image = DIKUArcade.Graphics.Image;
+using Timer = System.Timers.Timer;
 
 namespace SpaceTaxi_2.States {
     public class GameRunning : IGameState{
@@ -21,7 +27,10 @@ namespace SpaceTaxi_2.States {
         private Level level;
         public LevelParser levelParser;
         private LevelRender levelRender;
-
+        private Text[] score;
+        private int scoreAdd;
+        private System.Timers.Timer timer;
+        
         private static GameRunning instance = null;
 
         public static LevelController levelController;
@@ -55,9 +64,15 @@ namespace SpaceTaxi_2.States {
             level = levelParser.CreateLevel(levelFileName);
             levelRender = new LevelRender();
             EList = levelRender.LevelToEntityList(level);
-
+            
+            score = new Text[] {
+                new Text("Score: " + scoreAdd, new Vec2F(0.65f, 0.45f), new Vec2F(0.5f, 0.5f)), 
+                new Text("Timer: " + timer, new Vec2F(0.65f,0.35f),new Vec2F(0.5f,0.5f))};
+            
+            foreach (var txt in score) {
+                txt.SetColor(Color.WhiteSmoke);
+            }
         }
-
         public static GameRunning GetInstance() {
             return GameRunning.instance ?? (GameRunning.instance = new GameRunning());
         }
@@ -66,7 +81,6 @@ namespace SpaceTaxi_2.States {
         /// </summary>
         public void DetectCollision() {
             foreach (Entity wall in EList) {
-
                 if (CollisionDetection.Aabb(player.Entity.Shape.AsDynamicShape(),wall.Shape).Collision) { //if player hits wall
                     int mapPosX = Convert.ToInt32(wall.Shape.Position.X*40-1);
                     int mapPosY = Convert.ToInt32(22-wall.Shape.Position.Y*23);
@@ -122,6 +136,9 @@ namespace SpaceTaxi_2.States {
                 player.RenderPlayer();
             }
             EList.RenderEntities();
+            foreach (var txt in score) {
+                txt.RenderText();
+            }
         }
 
         public void SetLevel(string levelFileName) { //sets a level
