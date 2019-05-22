@@ -22,13 +22,8 @@ namespace SpaceTaxi_3.Timer {
                     oneMin += 1;
                 }
 
-                OutPut(timer);
                 Console.WriteLine(oneMin + ":" + timer);
             }
-        }
-
-        public int OutPut(int a) {
-            return a;
         }
     }
 }
