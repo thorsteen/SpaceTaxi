@@ -59,6 +59,7 @@
     <Compile Include="Taxi\Orientation.cs" />
     <Compile Include="Taxi\Player.cs" />
     <Compile Include="Taxi\TaxiImages.cs" />
+    <Compile Include="Timer\TimerIndex.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DIKUArcade\DIKUArcade\DIKUArcade.csproj">

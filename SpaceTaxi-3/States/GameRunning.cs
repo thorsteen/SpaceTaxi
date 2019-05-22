@@ -1,4 +1,5 @@
 using System;
+using System.Drawing;
 using System.IO;
 using DIKUArcade.Entities;
 using DIKUArcade.EventBus;
@@ -7,6 +8,8 @@ using DIKUArcade.Math;
 using DIKUArcade.Physics;
 using DIKUArcade.State;
 using SpaceTaxi_3.Taxi;
+using SpaceTaxi_3.Timer;
+using Image = DIKUArcade.Graphics.Image;
 
 namespace SpaceTaxi_3.States {
     public class GameRunning : IGameState{
@@ -20,6 +23,11 @@ namespace SpaceTaxi_3.States {
         private Level level;
         public LevelParser levelParser;
         private LevelRender levelRender;
+        private Text[] score;
+        private int scoreAdd;
+        private System.Timers.Timer timer;
+        private TimerIndex TIMER;
+
 
         private static GameRunning instance = null;
 
@@ -54,6 +62,16 @@ namespace SpaceTaxi_3.States {
             level = levelParser.CreateLevel(levelFileName);
             levelRender = new LevelRender();
             EList = levelRender.LevelToEntityList(level);
+            
+            TIMER = new TimerIndex();
+            
+            score = new Text[] {
+                new Text("Score: " + scoreAdd, new Vec2F(0.65f, 0.45f), new Vec2F(0.5f, 0.5f)), 
+                new Text("Timer: ", new Vec2F(0.65f,0.35f),new Vec2F(0.5f,0.5f))};
+            
+            foreach (var txt in score) {
+                txt.SetColor(Color.WhiteSmoke);
+            }
 
         }
 
@@ -121,6 +139,9 @@ namespace SpaceTaxi_3.States {
                 player.RenderPlayer();
             }
             EList.RenderEntities();
+            foreach (var txt in score) {
+                txt.RenderText();
+            }
         }
 
         public void SetLevel(string levelFileName) { //sets a level
