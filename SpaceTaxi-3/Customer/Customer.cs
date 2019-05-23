@@ -26,6 +26,7 @@ namespace SpaceTaxi_3 {
         public int scoreForDelivery;
         public Vec2I platformCoords;
         public Vec2F myCoords;
+        public bool pickedUp;
         
         public Customer(string Name, int SecondsUntilSpawn, char HomePlatform, string DestinationPlatform, int DropoffTimeLimit, int ScoreForDelivery, string[] map) {
             name = Name;
@@ -35,13 +36,15 @@ namespace SpaceTaxi_3 {
             dropOffTimeLimit = DropoffTimeLimit;
             scoreForDelivery = ScoreForDelivery;
 
+            pickedUp = false;
+
             platformCoords = FindSymbolCoords.Find(map, homePlatform);
-            myCoords = new Vec2F(1f / 40f * (float)platformCoords.X + 1f/40f, 22f/23f - (1f / 23f * (float)platformCoords.Y));
+            myCoords = new Vec2F(1f / 40f * (float)platformCoords.Y,22f/23f - (1f / 23f * (float)platformCoords.X)+1f / 23f);
             
 
             
             
-            shape = new DynamicShape(myCoords, new Vec2F());
+            shape = new DynamicShape(myCoords, new Vec2F(0.05f,0.05f));
             customerLeft = new Image(Path.Combine("Assets", "Images", "CustomerStandLeft.png"));
             customerMoveLeft = new Image(Path.Combine("Assets","Images","CustomerWalkLeft.png"));
             customerRight = new Image(Path.Combine("Assets", "Images", "CustomerStandRight.png"));
