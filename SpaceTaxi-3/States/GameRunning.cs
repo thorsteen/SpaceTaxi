@@ -19,7 +19,6 @@ namespace SpaceTaxi_3.States {
         private Entity backGroundImage;
 
         private Player player;
-        public Customer customer;
         private Level level;
         public LevelParser levelParser;
         private LevelRender levelRender;
@@ -40,8 +39,6 @@ namespace SpaceTaxi_3.States {
 
 
             player = new Player();
-            player.SetPosition(0.45f, 0.6f);
-            player.SetExtent(0.08f, 0.08f);
 
             eventBus.Subscribe(GameEventType.PlayerEvent, player);
 
@@ -51,9 +48,6 @@ namespace SpaceTaxi_3.States {
             );
             backGroundImage.RenderEntity();
 
-            /// customer
-            customer = new Customer("Hello",new DynamicShape(new Vec2F(0.45f,0.1f),new Vec2F(0.1f,0.1f)),
-                new Image(Path.Combine("Assets","Images","CustomerStandLeft.png")));
 
             /// Level creation
             levelController = StateMachine.levelController;
@@ -67,7 +61,7 @@ namespace SpaceTaxi_3.States {
             
             score = new Text[] {
                 new Text("Score: " + scoreAdd, new Vec2F(0.65f, 0.45f), new Vec2F(0.5f, 0.5f)), 
-                new Text("Timer: " + TIMER.timer, new Vec2F(0.65f,0.35f),new Vec2F(0.5f,0.5f))};
+                new Text("Timer: " + TIMER.Timer, new Vec2F(0.65f,0.35f),new Vec2F(0.5f,0.5f))};
             
             foreach (var txt in score) {
                 txt.SetColor(Color.WhiteSmoke);
@@ -81,7 +75,7 @@ namespace SpaceTaxi_3.States {
         /// <summary>
         /// Checks if the player hits any wall ( so to say, the taxi is not able to land either ).
         /// </summary>
-        public void DetectCollision() {
+        public void DetectCollisionWall() {
             foreach (Entity wall in EList) {
 
                 if (CollisionDetection.Aabb(player.Entity.Shape.AsDynamicShape(),wall.Shape).Collision) { //if player hits wall
@@ -103,14 +97,23 @@ namespace SpaceTaxi_3.States {
                                 "CHANGE_STATE",
                                 "MAIN_MENU", ""));
                         player = new Player();
-                        player.SetPosition(0.45f, 0.6f);
-                        player.SetExtent(0.08f, 0.08f);
+                        SetLevel(levelFileName);
+                        /*player.SetPosition(0.45f, 0.6f);
+                        player.SetExtent(0.08f, 0.08f);*/
                         eventBus.Subscribe(GameEventType.PlayerEvent, player);
 
                     }
                 }
             }
 
+        }
+
+        public void DetectCollisionCustomer() {
+            foreach (Customer cust in level.customers) {
+                if (CollisionDetection.Aabb(player.Entity.Shape.AsDynamicShape(), cust.Entity.Shape).Collision) {
+                    cust.pickedUp = true; //if player hits customer
+                }
+            }
         }
 
         public void GameLoop() {
@@ -122,6 +125,8 @@ namespace SpaceTaxi_3.States {
 
         public void UpdateGameLogic() {
             player.UpdateTaxi();
+
+            
             if (player.Entity.Shape.Position.Y > 0.95) {
                 if (levelFileName == "the-beach.txt") {
                     levelFileName = "short-n-sweet.txt";
@@ -129,14 +134,23 @@ namespace SpaceTaxi_3.States {
                     levelFileName = "the-beach.txt";
                 }
                 SetLevel(levelFileName);
+                
+            
             }
-            DetectCollision();
+            DetectCollisionWall();
+            DetectCollisionCustomer();
 
         }
 
         public void RenderState() {
             if (!player.Entity.IsDeleted()) {
                 player.RenderPlayer();
+             
+            }
+            foreach (var customer in level.customers) {
+                if (!customer.pickedUp) {
+                    customer.Entity.RenderEntity();
+                }
             }
             EList.RenderEntities();
             foreach (var txt in score) {

@@ -29,7 +29,7 @@ namespace SpaceTaxi_3 {
             
 
             // Gives the Map to a list 
-            for (int lineNum = 0; lineNum < levelFileLines.Length -1; lineNum++) {
+            for (int lineNum = 0; lineNum < levelFileLines.Length; lineNum++) {
                 if (lineNum < 23) {
                     map.Add(levelFileLines[lineNum]);
                 }
@@ -54,8 +54,12 @@ namespace SpaceTaxi_3 {
                 }
                 else if (levelFileLines[lineNum].Contains("Customer")) {
                     string temp = levelFileLines[lineNum];
-                    customers.Add(new Customer(temp.Replace("Customer: ", ""),new DynamicShape(new Vec2F(0.45f,0.1f),new Vec2F(0.1f,0.1f)),
-                        new DIKUArcade.Graphics.Image(Path.Combine("Assets","Images","CustomerStandLeft.png"))));
+                    string temp2 = temp.Replace("Customer: ", "");
+                    string[] customerStrings = temp2.Split(new string[] {" "}, StringSplitOptions.None);
+
+
+                    customers.Add(new Customer(customerStrings[0],Int32.Parse(customerStrings[1]),customerStrings[2][0],customerStrings[3], Int32.Parse(customerStrings[4]), Int32.Parse(customerStrings[5]),map.ToArray()));
+                    
                 }
             }
             

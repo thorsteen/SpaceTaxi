@@ -26,7 +26,7 @@ namespace SpaceTaxi_3.Taxi {
 
 
         public Player() {
-            shape = new DynamicShape(new Vec2F(), new Vec2F());
+            shape = new DynamicShape(new Vec2F(0.45f, 0.6f), new Vec2F(0.05f, 0.05f));
             taxiBoosterOffImageLeft =
                 TaxiImages.TaxiThrustNone();
             taxiBoosterOffImageRight =
