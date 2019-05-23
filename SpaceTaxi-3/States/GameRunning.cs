@@ -67,7 +67,7 @@ namespace SpaceTaxi_3.States {
             
             score = new Text[] {
                 new Text("Score: " + scoreAdd, new Vec2F(0.65f, 0.45f), new Vec2F(0.5f, 0.5f)), 
-                new Text("Timer: ", new Vec2F(0.65f,0.35f),new Vec2F(0.5f,0.5f))};
+                new Text("Timer: " + TIMER.timer, new Vec2F(0.65f,0.35f),new Vec2F(0.5f,0.5f))};
             
             foreach (var txt in score) {
                 txt.SetColor(Color.WhiteSmoke);
