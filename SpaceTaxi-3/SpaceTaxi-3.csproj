@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Customer\Customer.cs" />
     <Compile Include="EventBus.cs" />
+    <Compile Include="FindSymbolCoords.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Level.cs" />
     <Compile Include="LevelParser.cs" />

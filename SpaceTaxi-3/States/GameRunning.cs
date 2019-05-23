@@ -127,7 +127,6 @@ namespace SpaceTaxi_3.States {
                 SetLevel(levelFileName);
             }
             DetectCollision();
-            //Console.WriteLine(level.customers[0].name);
 
         }
 

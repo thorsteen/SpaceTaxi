@@ -24,17 +24,24 @@ namespace SpaceTaxi_3 {
         public string destinationPlatform;
         public int dropOffTimeLimit;
         public int scoreForDelivery;
+        public Vec2I platformCoords;
+        public Vec2F myCoords;
         
-        public Customer(string Name, int SecondsUntilSpawn, char HomePlatform, string DestinationPlatform, int DropoffTimeLimit, int ScoreForDelivery) {
+        public Customer(string Name, int SecondsUntilSpawn, char HomePlatform, string DestinationPlatform, int DropoffTimeLimit, int ScoreForDelivery, string[] map) {
             name = Name;
             secondsUntilSpawn = SecondsUntilSpawn;
             homePlatform = HomePlatform;
             destinationPlatform = DestinationPlatform;
             dropOffTimeLimit = DropoffTimeLimit;
             scoreForDelivery = ScoreForDelivery;
+
+            platformCoords = FindSymbolCoords.Find(map, homePlatform);
+            myCoords = new Vec2F(1f / 40f * (float)platformCoords.X + 1f/40f, 22f/23f - (1f / 23f * (float)platformCoords.Y));
+            
+
             
             
-            shape = new DynamicShape(new Vec2F(), new Vec2F());
+            shape = new DynamicShape(myCoords, new Vec2F());
             customerLeft = new Image(Path.Combine("Assets", "Images", "CustomerStandLeft.png"));
             customerMoveLeft = new Image(Path.Combine("Assets","Images","CustomerWalkLeft.png"));
             customerRight = new Image(Path.Combine("Assets", "Images", "CustomerStandRight.png"));

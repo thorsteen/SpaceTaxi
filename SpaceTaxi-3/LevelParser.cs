@@ -58,7 +58,7 @@ namespace SpaceTaxi_3 {
                     string[] customerStrings = temp2.Split(new string[] {" "}, StringSplitOptions.None);
 
 
-                    customers.Add(new Customer(customerStrings[0],Int32.Parse(customerStrings[1]),customerStrings[2][0],customerStrings[3], Int32.Parse(customerStrings[4]), Int32.Parse(customerStrings[5])));
+                    customers.Add(new Customer(customerStrings[0],Int32.Parse(customerStrings[1]),customerStrings[2][0],customerStrings[3], Int32.Parse(customerStrings[4]), Int32.Parse(customerStrings[5]),map.ToArray()));
                     
                 }
             }
