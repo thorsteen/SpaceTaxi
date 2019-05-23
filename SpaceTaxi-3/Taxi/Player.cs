@@ -18,6 +18,7 @@ namespace SpaceTaxi_3.Taxi {
         public AnimationContainer Thrusters;
         public List<Image> ThrusterStrides;
         public bool Landed;
+        public char CurrentPlatform;
         public List<Image> taxiThrustbottom;
         public List<Image> taxiThrustrightBack;
         public List<Image> taxiThrustright;
@@ -110,6 +111,8 @@ namespace SpaceTaxi_3.Taxi {
             Entity.Shape.AsDynamicShape().Direction = Velocity;
 
             Entity.Shape.AsDynamicShape().Move();
+            
+            
         }
 
         public void ProcessEvent(GameEventType eventType, GameEvent<object> gameEvent) {

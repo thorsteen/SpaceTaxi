@@ -15,7 +15,6 @@ namespace SpaceTaxi_2 {
             mapName = MapName;
             platforms = Platforms;
             keyLegend = KeyLegend;
-            customers = Customers;
         }
     }
 }
