@@ -27,6 +27,7 @@ namespace SpaceTaxi_3 {
         public Vec2I platformCoords;
         public Vec2F myCoords;
         public bool pickedUp;
+        public bool delivered;
         
         public Customer(string Name, int SecondsUntilSpawn, char HomePlatform, string DestinationPlatform, int DropoffTimeLimit, int ScoreForDelivery, string[] map) {
             name = Name;
@@ -37,6 +38,7 @@ namespace SpaceTaxi_3 {
             scoreForDelivery = ScoreForDelivery;
 
             pickedUp = false;
+            delivered = false;
 
             platformCoords = FindSymbolCoords.Find(map, homePlatform);
             myCoords = new Vec2F(1f / 40f * (float)platformCoords.Y,22f/23f - (1f / 23f * (float)platformCoords.X)+1f / 23f);

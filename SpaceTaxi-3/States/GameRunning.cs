@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using DIKUArcade.Entities;
@@ -23,7 +24,7 @@ namespace SpaceTaxi_3.States {
         public LevelParser levelParser;
         private LevelRender levelRender;
         private Text[] score;
-        private int scoreAdd;
+        private int currentScore;
         private System.Timers.Timer timer;
         private TimerIndex TIMER;
 
@@ -60,12 +61,15 @@ namespace SpaceTaxi_3.States {
             TIMER = new TimerIndex();
             
             score = new Text[] {
-                new Text("Score: " + scoreAdd, new Vec2F(0.65f, 0.45f), new Vec2F(0.5f, 0.5f)), 
+                new Text("Score: " + currentScore, new Vec2F(0.65f, 0.45f), new Vec2F(0.5f, 0.5f)), 
                 new Text("Timer: " + TIMER.Timer, new Vec2F(0.65f,0.35f),new Vec2F(0.5f,0.5f))};
+            
+            currentScore = 0;
             
             foreach (var txt in score) {
                 txt.SetColor(Color.WhiteSmoke);
             }
+            
 
         }
 
@@ -87,6 +91,7 @@ namespace SpaceTaxi_3.States {
                         player.Velocity.Y = 0; //ved stadig ikke hvordan jeg får taxi'en til at lande ordentligt
                       
                         player.Landed = true;
+                        player.CurrentPlatform = level.map[mapPosY][mapPosX];
                     } else { //player dead
                         player.Entity.DeleteEntity();
                         Console.WriteLine("Your are dead!");
@@ -125,6 +130,18 @@ namespace SpaceTaxi_3.States {
 
         public void UpdateGameLogic() {
             player.UpdateTaxi();
+            Console.WriteLine(currentScore);
+            if (player.Landed) {
+                foreach (Customer cust in level.customers) {
+                    char destination =
+                        cust.destinationPlatform[cust.destinationPlatform.Length - 1];
+                    if (cust.pickedUp && destination == player.CurrentPlatform && !cust.delivered) {
+                        cust.delivered = true;
+                        cust.pickedUp = false;
+                        currentScore += cust.scoreForDelivery;
+                    }
+                }
+            }
 
             
             if (player.Entity.Shape.Position.Y > 0.95) {
@@ -148,7 +165,7 @@ namespace SpaceTaxi_3.States {
              
             }
             foreach (var customer in level.customers) {
-                if (!customer.pickedUp) {
+                if (!customer.pickedUp && !customer.delivered) {
                     customer.Entity.RenderEntity();
                 }
             }
