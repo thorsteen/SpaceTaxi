@@ -19,7 +19,6 @@ namespace SpaceTaxi_3.States {
         private Entity backGroundImage;
 
         private Player player;
-        public Customer customer;
         private Level level;
         public LevelParser levelParser;
         private LevelRender levelRender;
@@ -51,9 +50,6 @@ namespace SpaceTaxi_3.States {
             );
             backGroundImage.RenderEntity();
 
-            /// customer
-            customer = new Customer("Hello",new DynamicShape(new Vec2F(0.45f,0.1f),new Vec2F(0.1f,0.1f)),
-                new Image(Path.Combine("Assets","Images","CustomerStandLeft.png")));
 
             /// Level creation
             levelController = StateMachine.levelController;
@@ -131,6 +127,7 @@ namespace SpaceTaxi_3.States {
                 SetLevel(levelFileName);
             }
             DetectCollision();
+            //Console.WriteLine(level.customers[0].name);
 
         }
 

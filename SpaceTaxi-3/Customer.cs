@@ -18,10 +18,22 @@ namespace SpaceTaxi_3 {
         private int walkingLenght = 200;
         public Entity Entity { get; private set; }
 
-        private string name;
+        public string name;
+        public int secondsUntilSpawn;
+        public char homePlatform;
+        public string destinationPlatform;
+        public int dropOffTimeLimit;
+        public int scoreForDelivery;
         
-        public Customer(string customer, DynamicShape shape, IBaseImage image) {
-            name = customer;
+        public Customer(string Name, int SecondsUntilSpawn, char HomePlatform, string DestinationPlatform, int DropoffTimeLimit, int ScoreForDelivery) {
+            name = Name;
+            secondsUntilSpawn = SecondsUntilSpawn;
+            homePlatform = HomePlatform;
+            destinationPlatform = DestinationPlatform;
+            dropOffTimeLimit = DropoffTimeLimit;
+            scoreForDelivery = ScoreForDelivery;
+            
+            
             shape = new DynamicShape(new Vec2F(), new Vec2F());
             customerLeft = new Image(Path.Combine("Assets", "Images", "CustomerStandLeft.png"));
             customerMoveLeft = new Image(Path.Combine("Assets","Images","CustomerWalkLeft.png"));
@@ -33,52 +45,8 @@ namespace SpaceTaxi_3 {
             CustomerLeftStride = ImageStride.CreateStrides(2, Path.Combine("Assets","Images",
                 "CustomerWalkRight.png"));
             walking = new AnimationContainer(200);
-            Entity = new Entity(shape,image);
+            Entity = new Entity(shape,new DIKUArcade.Graphics.Image(Path.Combine("Assets","Images","CustomerStandLeft.png")));
 
         }
-       /// <summary>
-       /// Adds the animation for the customer walking Left
-       /// </summary>
-       /// <param name="posX"></param>
-       /// <param name="posY"></param>
-       /// <param name="extentX"></param>
-       /// <param name="extentY"></param>
-        private void AddWalkingLeft(float posX, float posY, float extentX, float extentY) {
-            walking.AddAnimation(new StationaryShape(posX, posY, extentX, extentY),
-                walkingLenght, new ImageStride(walkingLenght / 2, CustomerLeftStride));
-        }
-       /// <summary>
-       /// Adds the animation for the customer walking Right
-       /// </summary>
-       /// <param name="posX"></param>
-       /// <param name="posY"></param>
-       /// <param name="extentX"></param>
-       /// <param name="extentY"></param>
-        private void AddWalkingRight(float posX, float posY, float extentX, float extentY) {
-            walking.AddAnimation(new StationaryShape(posX, posY, extentX, extentY),
-                walkingLenght, new ImageStride(walkingLenght / 2, CustomerRightStride));
-        }
-        /// <summary>
-        /// Sets a direction for the Customer. 
-        /// </summary>
-        /// <param name="direction"></param>
-        private void Direction(Vec2F direction) {
-            DynamicShape dynamicShape = Entity.Shape.AsDynamicShape();
-            dynamicShape.ChangeDirection(direction);
-        }
-        
-        /// <summary>
-        /// Moves the customer ( for now until its not going out of bounds ). 
-        /// </summary>
-        public void Move() {
-            DynamicShape dynamicShape = Entity.Shape.AsDynamicShape();
-            if (Entity.Shape.Position.X + dynamicShape.Direction.X < 0.9f &&
-                Entity.Shape.Position.X + dynamicShape.Direction.X > 0.0f) {
-                Entity.Shape.Move();
-            }
-        }
-        
-    
-        
     }
 }
