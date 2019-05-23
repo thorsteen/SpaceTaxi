@@ -23,7 +23,7 @@ namespace SpaceTaxi_3.States {
         public LevelParser levelParser;
         private LevelRender levelRender;
         private Text[] score;
-        private int scoreAdd;
+        private int scoreAdd = 0;
         private System.Timers.Timer timer;
         private TimerIndex TIMER;
 
