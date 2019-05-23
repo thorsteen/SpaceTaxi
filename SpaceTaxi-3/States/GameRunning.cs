@@ -97,8 +97,9 @@ namespace SpaceTaxi_3.States {
                                 "CHANGE_STATE",
                                 "MAIN_MENU", ""));
                         player = new Player();
-                        player.SetPosition(0.45f, 0.6f);
-                        player.SetExtent(0.08f, 0.08f);
+                        SetLevel(levelFileName);
+                        /*player.SetPosition(0.45f, 0.6f);
+                        player.SetExtent(0.08f, 0.08f);*/
                         eventBus.Subscribe(GameEventType.PlayerEvent, player);
 
                     }
