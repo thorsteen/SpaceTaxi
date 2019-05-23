@@ -3,22 +3,13 @@ using System.Threading;
 
 namespace SpaceTaxi_3.Timer {
     public class TimerIndex {
-        private int timer1;
-        private int oneMin1;
+        public int Timer { get; private set; }
 
-        public int timer {
-            get => timer1;
-            private set => timer1 = value;
-        }
-
-        public int oneMin {
-            get => oneMin1;
-            private set => oneMin1 = value;
-        }
+        public int OneMin { get; private set; }
 
         public TimerIndex() {
-            timer = 0;
-            oneMin1 = 0;
+            Timer = 0;
+            OneMin = 0;
         }
         
         /// <summary>
@@ -29,15 +20,15 @@ namespace SpaceTaxi_3.Timer {
         /// <param name="minutes"></param>
         /// <param name="seconds"></param>
         public void PrintSeconds(int minutes, int seconds) {
-            while (timer < seconds || oneMin < minutes) {
-                timer += 1;
+            while (Timer < seconds || OneMin < minutes) {
+                Timer += 1;
                 Thread.Sleep(1000);
-                if (timer == 60) {
-                    timer = 0;
-                    oneMin += 1;
+                if (Timer == 60) {
+                    Timer = 0;
+                    OneMin += 1;
                 }
 
-                Console.WriteLine(oneMin + ":" + timer);
+                Console.WriteLine(OneMin + ":" + Timer);
             }
         }
     }
