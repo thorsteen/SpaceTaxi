@@ -88,7 +88,7 @@ namespace SpaceTaxi_3.States {
 
                     if (level.platforms.Contains(level.map[mapPosY][mapPosX]) //if hit object is a platform...
                         && Math.Sqrt(player.Velocity.X*player.Velocity.X+player.Velocity.Y*player.Velocity.Y) < 0.002f) { //...and not moving too fast
-                        player.Velocity.Y = 0; //ved stadig ikke hvordan jeg får taxi'en til at lande ordentligt
+                        player.Velocity.Y = 0;
 
                         player.Landed = true;
                         player.CurrentPlatform = level.map[mapPosY][mapPosX];
@@ -103,8 +103,7 @@ namespace SpaceTaxi_3.States {
                                 "MAIN_MENU", ""));
                         player = new Player();
                         SetLevel(levelFileName);
-                        /*player.SetPosition(0.45f, 0.6f);
-                        player.SetExtent(0.08f, 0.08f);*/
+
                         eventBus.Subscribe(GameEventType.PlayerEvent, player);
 
                     }
