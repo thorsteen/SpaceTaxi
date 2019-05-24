@@ -23,6 +23,8 @@ namespace SpaceTaxi_3.Taxi {
         public List<Image> taxiThrustrightBack;
         public List<Image> taxiThrustright;
         public List<Image> taxiThrustleft;
+        public List<Image> taxiThrustBottomBack;
+        public List<Image> taxiThrustBottomBackleft;
 
 
 
@@ -49,6 +51,12 @@ namespace SpaceTaxi_3.Taxi {
             taxiThrustleft =
                 new List<Image>(ImageStride.CreateStrides(2,
                     Path.Combine("Assets", "Images", "Taxi_Thrust_Back.png")));
+            taxiThrustBottomBack = 
+                new List<Image>(ImageStride.CreateStrides(2,
+                    Path.Combine("Assets", "Images", "Taxi_Thrust_Bottom_Back_Right.png")));
+            taxiThrustBottomBackleft = 
+                new List<Image>(ImageStride.CreateStrides(2,
+                    Path.Combine("Assets", "Images", "Taxi_Thrust_Bottom_Back.png")));
         }
 
         public Entity Entity { get; }
@@ -69,17 +77,26 @@ namespace SpaceTaxi_3.Taxi {
                 : taxiBoosterOffImageRight;
 
             if (UpHeld && taxiOrientation == Orientation.Left) {
-                Entity.Image = new ImageStride(80, taxiThrustleft);
+                Entity.Image = new ImageStride(80, taxiThrustbottom);
             }
             if (UpHeld && taxiOrientation == Orientation.Right) {
-                Entity.Image = new ImageStride(80,taxiThrustrightBack);
+                Entity.Image = new ImageStride(80,taxiThrustright);
             }
             if (LeftHeld) { ;
                 Entity.Image = new ImageStride(80,taxiThrustleft);
             }
             if (RightHeld) {
-                Entity.Image = new ImageStride(80,taxiThrustright);
+                Entity.Image = new ImageStride(80,taxiThrustrightBack);
             }
+
+            if (UpHeld && RightHeld) {
+                Entity.Image = new ImageStride(80,taxiThrustBottomBack);
+            }
+
+            if (UpHeld && LeftHeld)  {
+                Entity.Image = new ImageStride(80, taxiThrustBottomBackleft);
+            }
+            
             
             Entity.RenderEntity();
             
