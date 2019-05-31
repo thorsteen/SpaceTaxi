@@ -43,20 +43,7 @@ namespace SpaceTaxi_3 {
             platformCoords = FindSymbolCoords.Find(map, homePlatform);
             myCoords = new Vec2F(1f / 40f * (float)platformCoords.Y,22f/23f - (1f / 23f * (float)platformCoords.X)+1f / 23f);
             
-
-            
-            
             shape = new DynamicShape(myCoords, new Vec2F(0.05f,0.05f));
-            customerLeft = new Image(Path.Combine("Assets", "Images", "CustomerStandLeft.png"));
-            customerMoveLeft = new Image(Path.Combine("Assets","Images","CustomerWalkLeft.png"));
-            customerRight = new Image(Path.Combine("Assets", "Images", "CustomerStandRight.png"));
-            customerMoveRight = new Image(Path.Combine("Assets", "Images", "CustomerWalkRight.png"));
-            CustomerList = new List<Customer>();
-            CustomerLeftStride = ImageStride.CreateStrides(2, Path.Combine("Assets","Images",
-            "CustomerWalkLeft.png"));
-            CustomerLeftStride = ImageStride.CreateStrides(2, Path.Combine("Assets","Images",
-                "CustomerWalkRight.png"));
-            walking = new AnimationContainer(200);
             Entity = new Entity(shape,new DIKUArcade.Graphics.Image(Path.Combine("Assets","Images","CustomerStandLeft.png")));
 
         }
