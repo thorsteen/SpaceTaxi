@@ -141,8 +141,6 @@ namespace SpaceTaxi_3.States {
                     }
                 }
             }
-
-
             if (player.Entity.Shape.Position.Y > 0.95) {
                 if (levelFileName == "the-beach.txt") {
                     levelFileName = "short-n-sweet.txt";
@@ -150,18 +148,13 @@ namespace SpaceTaxi_3.States {
                     levelFileName = "the-beach.txt";
                 }
                 SetLevel(levelFileName);
-
-
             }
             DetectCollisionWall();
             DetectCollisionCustomer();
-
         }
-
         public void RenderState() {
             if (!player.Entity.IsDeleted()) {
                 player.RenderPlayer();
-
             }
             foreach (var customer in level.customers) {
                 if (!customer.pickedUp && !customer.delivered) {
@@ -173,13 +166,12 @@ namespace SpaceTaxi_3.States {
                 txt.RenderText();
             }
         }
-
         public void SetLevel(string levelFileName) { //sets a level
             level = levelParser.CreateLevel(levelFileName);
             EList = levelRender.LevelToEntityList(level);
             player.SetPosition(0.45f, 0.6f);
             player.Velocity.X = 0.0f;
-            player.Velocity.Y = 0.004f;
+            player.Velocity.Y = 0.00f;
         }
 
         public void HandleKeyEvent(string keyValue, string keyAction) {
