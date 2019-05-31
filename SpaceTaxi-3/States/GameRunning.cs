@@ -109,13 +109,25 @@ namespace SpaceTaxi_3.States {
                     }
                 }
             }
-
+        }
+        /// <summary>
+        /// Should check the players customer - as of now, there is no way to check which customer we have aquirred, is to come
+        /// </summary>
+        public void CheckCustomer() {
+            string custDest = player.Customer.destinationPlatform;
+            string playerDest = new string (player.CurrentPlatform,1);
+            if (custDest == playerDest) {
+                player.Customer.delivered = true;
+                player.Customer.pickedUp = false;
+                currentScore += player.Customer.scoreForDelivery;
+            }           
         }
 
         public void DetectCollisionCustomer() {
             foreach (Customer cust in level.customers) {
                 if (CollisionDetection.Aabb(player.Entity.Shape.AsDynamicShape(), cust.Entity.Shape).Collision) {
                     cust.pickedUp = true; //if player hits customer
+                    player.haveCustomer = true;
                 }
             }
         }
@@ -129,7 +141,7 @@ namespace SpaceTaxi_3.States {
 
         public void UpdateGameLogic() {
             player.UpdateTaxi();
-            Console.WriteLine(currentScore);
+//            Console.WriteLine(currentScore);
             if (player.Landed) {
                 foreach (Customer cust in level.customers) {
                     char destination =
@@ -140,6 +152,7 @@ namespace SpaceTaxi_3.States {
                         currentScore += cust.scoreForDelivery;
                     }
                 }
+                //CheckCustomer();
             }
             if (player.Entity.Shape.Position.Y > 0.95) {
                 if (levelFileName == "the-beach.txt") {
@@ -166,7 +179,12 @@ namespace SpaceTaxi_3.States {
                 txt.RenderText();
             }
         }
-        public void SetLevel(string levelFileName) { //sets a level
+        public void SetLevel(string levelFileName) { //sets a level   
+            foreach (var cust in level.customers) {
+                if (cust.pickedUp && player.haveCustomer) {
+                    player.Customer = cust;
+                }
+            }
             level = levelParser.CreateLevel(levelFileName);
             EList = levelRender.LevelToEntityList(level);
             player.SetPosition(0.45f, 0.6f);
