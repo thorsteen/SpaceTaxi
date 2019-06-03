@@ -1,58 +1,80 @@
 using System.Collections.Generic;
+using System.IO;
+using DIKUArcade;
 using DIKUArcade.EventBus;
+using DIKUArcade.State;
 using NUnit.Framework;
 using SpaceTaxi_3;
 using SpaceTaxi_3.States;
+using SpaceTaxi_3.Timer;
 
 namespace TaxiTests
 {
     public class StateTest
     {
         private StateMachine stateMachine;
-        private LevelController levelController;
-        private FindSymbolCoords symbol;
+        private GameEventBus<object> eventBus;
+        private TimerIndex time;
+
+
         
         [SetUp]
-        public void InitiateStateMachine() {
-            DIKUArcade.Window.CreateOpenGLContext();
-            stateMachine = new StateMachine();
-            var eventBus = EventBus.GetBus();
-            eventBus.InitializeEventBus(new List<GameEventType>() {
-                GameEventType.GameStateEvent,
-                GameEventType.InputEvent
-            });
-            eventBus.Subscribe(GameEventType.GameStateEvent,stateMachine);
-            eventBus.Subscribe(GameEventType.InputEvent,stateMachine);
-        }
-        /// <summary>
-        /// Skal fikses med process event eller nye states machines hele vejen igennem
-        /// </summary>
-
-
-        [Test]
-        public void TestInitailState() {
-            Assert.That(stateMachine.ActivateState, Is.InstanceOf<MainMenu>());
-        }
-
-        [Test]
-        public void TestEventGamePaused() {
-            EventBus.GetBus().RegisterEvent(GameEventFactory<object>
-                .CreateGameEventForAllProcessors(GameEventType.GameStateEvent, this, "CHANGE_STATE",
-                    "GAME_PAUSED", ""));
-            
-            EventBus.GetBus().ProcessEventsSequentially();
-            Assert.That(stateMachine.ActivateState, Is.InstanceOf<GamePaused>());
-        }
-        [Test]
-        public void TestEventGameRunning() {
-            EventBus.GetBus().RegisterEvent(GameEventFactory<object>
-                .CreateGameEventForAllProcessors(GameEventType.GameStateEvent, this, "CHANGE_STATE",
-                    "GAME_RUNNING", ""));
-            
-            EventBus.GetBus().ProcessEventsSequentially();
-            Assert.That(stateMachine.ActivateState, Is.InstanceOf<GameRunning>());
+        public void SetUp() {
+            Window.CreateOpenGLContext();
+            eventBus = EventBus.GetBus();
+            Directory.SetCurrentDirectory(TestContext.CurrentContext.TestDirectory);
         }
         
+        [TestCase("MainMenu", "MAIN_MENU")]
+        [TestCase("ChooseLevel", "Choose_Level")]
+        [TestCase("GameRunning", "GAME_RUNNING")]
+        [TestCase("GamePaused", "GAME_PAUSED")]
+        public void SwitchStateTest(string gameStateType, string newState) {
+            
+            IGameState testStateType;
+
+            stateMachine = new StateMachine();
+            
+            eventBus.InitializeEventBus(new List<GameEventType>() {
+                GameEventType.ControlEvent,
+                GameEventType.GameStateEvent,
+                GameEventType.InputEvent,
+                GameEventType.PlayerEvent,
+                GameEventType.WindowEvent
+            });
+            
+            eventBus.Subscribe(GameEventType.GameStateEvent, stateMachine);
+            
+            switch (gameStateType) {
+                case "GameRunning":
+                    testStateType = GameRunning.GetInstance();
+                    break;
+                case "GamePaused":
+                    testStateType = GamePaused.GetInstance();
+                    break;
+                case "ChooseLevel":
+                    testStateType = ChooseLevel.GetInstance();
+                    break;
+                case "MainMenu":
+                    testStateType = MainMenu.GetInstance();
+                    break;
+                default:
+                    testStateType = MainMenu.GetInstance();
+                    break;
+            }
+            
+            eventBus.RegisterEvent(
+                GameEventFactory<object>.CreateGameEventForAllProcessors(
+                    GameEventType.GameStateEvent, 
+                    stateMachine.ActivateState, 
+                    "CHANGE_STATE",
+                    newState, ""));
+           
+            
+            eventBus.ProcessEvents();
+            
+            Assert.AreEqual(testStateType, stateMachine.ActivateState);
+        }
         
         [Test]
         public void TransformStringToStateRunning() {
@@ -89,6 +111,28 @@ namespace TaxiTests
         [Test]
         public void TransformStateToStringMainMenu() {
             Assert.AreEqual("MAIN_MENU",StateTransformer.TransformStateToString(GameStateType.MainMenu));
+        }
+        
+        [Test]
+        public void TestTimer()
+        {
+            time = new TimerIndex();
+
+            time.PrintSeconds(1,1);
+
+            Assert.AreEqual(1, time.Timer);
+            Assert.AreEqual(1, time.OneMin);
+            
+        }
+
+        [Test]
+        public void TestTimer0()
+        {
+            time = new TimerIndex();
+
+            Assert.AreEqual(0, time.Timer);
+            Assert.AreEqual(0, time.OneMin);
+            
         }
     }
 }

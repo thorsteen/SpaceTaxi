@@ -43,8 +43,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="LevelParserTest.cs" />
+    <Compile Include="PlayerTest.cs" />
     <Compile Include="StateTest.cs" />
-    <Compile Include="UnitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
