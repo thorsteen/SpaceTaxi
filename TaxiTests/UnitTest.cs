@@ -12,7 +12,7 @@ using SpaceTaxi_3.Timer;
 namespace TaxiTests
 {
     [TestFixture]
-    public class Tests
+    public class UnitTest
     {
         private StateMachine stateMachine;
         private LevelController levelController;
@@ -22,13 +22,14 @@ namespace TaxiTests
         private Player player;
 
 
+       
         [Test]
         public void TestCreateLevel()
         {
             LevelParser lvlParser = new LevelParser();
             
             var tempName = lvlParser.CreateLevel("the-beach.txt").mapName;
-            Assert.AreSame("THE BEACH", tempName);
+            Assert.AreEqual("THE BEACH", tempName);
         }
         
 
@@ -41,83 +42,7 @@ namespace TaxiTests
                 lvlParser.GetLevelFilePath("the-beach.txt"));
 
         }
-
-        [SetUp]
-            public void InitiateStateMachine() {
-                DIKUArcade.Window.CreateOpenGLContext();
-                stateMachine = new StateMachine();
-            
-                EventBus.GetBus().InitializeEventBus(new List<GameEventType>() {
-                    GameEventType.GameStateEvent,
-                    GameEventType.InputEvent
-                });
-                EventBus.GetBus().Subscribe(GameEventType.GameStateEvent,stateMachine);
-                EventBus.GetBus().Subscribe(GameEventType.InputEvent,stateMachine);
-                EventBus.GetBus().ProcessEvents();
-                
-            }
-
-        [Test]
-            public void TestInitailState() {
-                Assert.That(stateMachine.ActivateState, Is.InstanceOf<MainMenu>());
-            }
-
-        [Test]
-            public void TestEventGamePaused() {
-                EventBus.GetBus().RegisterEvent(GameEventFactory<object>
-                    .CreateGameEventForAllProcessors(GameEventType.GameStateEvent, this, "CHANGE_STATE",
-                        "GAME_PAUSED", ""));
-            
-                EventBus.GetBus().ProcessEventsSequentially();
-                Assert.That(stateMachine.ActivateState, Is.InstanceOf<GamePaused>());
-            }
-        [Test]
-            public void TestEventGameRunning() {
-                EventBus.GetBus().RegisterEvent(GameEventFactory<object>
-                    .CreateGameEventForAllProcessors(GameEventType.GameStateEvent, this, "CHANGE_STATE",
-                        "GAME_RUNNING", ""));
-            
-                EventBus.GetBus().ProcessEventsSequentially();
-                Assert.That(stateMachine.ActivateState, Is.InstanceOf<GameRunning>());
-            }
-            
-
-        [Test]
-        public void TransformStringToStateRunning() {
-            
-            Assert.AreEqual(GameStateType.GameRunning,StateTransformer.TransformStringToState("GAME_RUNNING"));
-        }
-
-        [Test]
-        public void TransformStringToStatePaused() {
-            Assert.AreEqual(GameStateType.GamePaused,StateTransformer.TransformStringToState("GAME_PAUSED"));
-        }
-
-        [Test]
-        public void TransformStringToStateMainMenu() {
-            Assert.AreEqual(GameStateType.MainMenu,StateTransformer.TransformStringToState("MAIN_MENU"));
-        }
         
-        [Test]
-        public void TransformStringToStateChooseLevel() {
-            Assert.AreEqual(GameStateType.MainMenu,StateTransformer.TransformStringToState("Choose_Level"));
-        }
-
-        [Test]
-        public void TransformStateToStringRunning() {
-            Assert.AreEqual("GAME_RUNNING",StateTransformer.TransformStateToString(GameStateType.GameRunning));
-        }
-
-        [Test]
-        public void TransformStateToStringPaused() {
-            Assert.AreEqual("GAME_PAUSED",StateTransformer.TransformStateToString(GameStateType
-                .GamePaused));
-        }
-
-        [Test]
-        public void TransformStateToStringMainMenu() {
-            Assert.AreEqual("MAIN_MENU",StateTransformer.TransformStateToString(GameStateType.MainMenu));
-        }
 
         [Test]
         public void TestSetLevel0()
