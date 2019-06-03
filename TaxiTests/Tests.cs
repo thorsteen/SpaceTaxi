@@ -9,6 +9,7 @@ using SpaceTaxi_3.States;
 using SpaceTaxi_3.Taxi;
 using SpaceTaxi_3.Timer;
 
+
 namespace TaxiTests
 {
     [TestFixture]
@@ -22,6 +23,21 @@ namespace TaxiTests
         private Player player;
 
 
+        [SetUp]
+        public void InitiateStateMachine() {
+            DIKUArcade.Window.CreateOpenGLContext();
+            stateMachine = new StateMachine();
+            
+            EventBus.GetBus().InitializeEventBus(new List<GameEventType>() {
+                GameEventType.GameStateEvent,
+                GameEventType.InputEvent
+            });
+            EventBus.GetBus().Subscribe(GameEventType.GameStateEvent,stateMachine);
+            EventBus.GetBus().Subscribe(GameEventType.InputEvent,stateMachine);
+            EventBus.GetBus().ProcessEvents();
+                
+        }
+        
         [Test]
         public void TestCreateLevel()
         {
@@ -42,20 +58,7 @@ namespace TaxiTests
 
         }
 
-        [SetUp]
-            public void InitiateStateMachine() {
-                DIKUArcade.Window.CreateOpenGLContext();
-                stateMachine = new StateMachine();
-            
-                EventBus.GetBus().InitializeEventBus(new List<GameEventType>() {
-                    GameEventType.GameStateEvent,
-                    GameEventType.InputEvent
-                });
-                EventBus.GetBus().Subscribe(GameEventType.GameStateEvent,stateMachine);
-                EventBus.GetBus().Subscribe(GameEventType.InputEvent,stateMachine);
-                EventBus.GetBus().ProcessEvents();
-                
-            }
+        
 
         [Test]
             public void TestInitailState() {
