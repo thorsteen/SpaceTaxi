@@ -8,6 +8,7 @@ using DIKUArcade.Graphics;
 using DIKUArcade.Math;
 using DIKUArcade.Physics;
 using DIKUArcade.State;
+using DIKUArcade.Timers;
 using SpaceTaxi_3.Taxi;
 using SpaceTaxi_3.Timer;
 using Image = DIKUArcade.Graphics.Image;
@@ -27,6 +28,7 @@ namespace SpaceTaxi_3.States {
         private int currentScore;
         private System.Timers.Timer timer;
         private TimerIndex TIMER;
+        private DIKUArcade.Timers.StaticTimer tid;
 
 
         private static GameRunning instance = null;
@@ -37,7 +39,7 @@ namespace SpaceTaxi_3.States {
 
         public GameRunning() {
             eventBus = EventBus.GetBus();
-
+            tid = new StaticTimer();
 
             player = new Player();
 
@@ -150,6 +152,7 @@ namespace SpaceTaxi_3.States {
                         cust.delivered = true;
                         cust.pickedUp = false;
                         currentScore += cust.scoreForDelivery;
+                        score[0].SetText("Score: " + currentScore);
                     }
                 }
                 //CheckCustomer();
@@ -162,8 +165,10 @@ namespace SpaceTaxi_3.States {
                 }
                 SetLevel(levelFileName);
             }
+            
             DetectCollisionWall();
             DetectCollisionCustomer();
+            Console.WriteLine(StaticTimer.GetElapsedSeconds());
         }
         public void RenderState() {
             if (!player.Entity.IsDeleted()) {
@@ -171,7 +176,16 @@ namespace SpaceTaxi_3.States {
             }
             foreach (var customer in level.customers) {
                 if (!customer.pickedUp && !customer.delivered) {
-                    customer.Entity.RenderEntity();
+                    if (levelFileName == "the-beach.txt") {
+                        if (StaticTimer.GetElapsedSeconds() >= 10) {
+                            customer.Entity.RenderEntity();
+                        }
+                    }
+                    if (levelFileName == "short-n-sweet.txt") {
+                        if (StaticTimer.GetElapsedSeconds() >= 5 && StaticTimer.GetElapsedSeconds() < 60) {
+                            customer.Entity.RenderEntity();
+                        }
+                    }
                 }
             }
             EList.RenderEntities();
