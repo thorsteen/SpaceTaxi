@@ -168,7 +168,7 @@ namespace SpaceTaxi_3.States {
             
             DetectCollisionWall();
             DetectCollisionCustomer();
-            Console.WriteLine(StaticTimer.GetElapsedSeconds());
+            
         }
         public void RenderState() {
             if (!player.Entity.IsDeleted()) {

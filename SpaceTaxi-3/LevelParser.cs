@@ -7,24 +7,34 @@ using DIKUArcade.Math;
 namespace SpaceTaxi_3 {
     public class LevelParser {
         
-        public string[] TextInFile(string fileName) { //returns the string of a text file
+        /// <summary>
+        ///  Looks up a text file and saves all the text as strings, line by line
+        /// </summary>
+        /// <param name="fileName">The name of the file to look in</param>
+        /// <returns>a string array, containing each line</returns>
+        public string[] TextInFile(string fileName) {
  
             string[] lines = File.ReadAllLines(GetLevelFilePath(fileName));
 
             return lines;
-
         } 
+        
         /// <summary>
-        /// The function is able to translate the file text into several different arrays and strings, which are passed through to the level later on. This is done by a for-loop that itterates through the whole array, and then sepparates them into smaller pieces. 
+        /// This function is able to translate level file text into a Level object.
+        /// This is done by a for-loop that iterates over the whole array, and then separates them into smaller pieces. 
         /// </summary>
-        /// <param name="levelFileLines"></param>
-        /// <returns>Level</returns>
-        private Level TextToLevel(string[] levelFileLines) { //translates text into a level
+        /// <param name="levelFileLines">a string array containing each line from a level file</param>
+        /// <returns>A Level</returns>
+        private Level TextToLevel(string[] levelFileLines) {
 
             List<string> map = new List<string>();
+            
             string mapName = "";
+            
             Dictionary<char,string> keyLegend = new Dictionary<char, string>();
+            
             List<Customer> customers = new List<Customer>();
+            
             List<char> platforms = new List<char>();
             
 
@@ -43,8 +53,7 @@ namespace SpaceTaxi_3 {
                     string temp2 = temp.Replace("Platforms: ", "");
                     for (int i = 0; i < temp2.Length; i += 3) {
                         platforms.Add(temp2[i]); 
-                    }
-                    
+                    }      
                 }
                 // Makes the dictonary, connecting the lettes and their respective PNG files 
                 else if (levelFileLines[lineNum].Contains(".png")) {
@@ -57,21 +66,24 @@ namespace SpaceTaxi_3 {
                     string temp2 = temp.Replace("Customer: ", "");
                     string[] customerStrings = temp2.Split(new string[] {" "}, StringSplitOptions.None);
 
-
-                    customers.Add(new Customer(customerStrings[0],Int32.Parse(customerStrings[1]),customerStrings[2][0],customerStrings[3], Int32.Parse(customerStrings[4]), Int32.Parse(customerStrings[5]),map.ToArray()));
-                    
+                    customers.Add(new Customer(
+                        customerStrings[0],
+                        Int32.Parse(customerStrings[1]),customerStrings[2][0],
+                        customerStrings[3], 
+                        Int32.Parse(customerStrings[4]), 
+                        Int32.Parse(customerStrings[5]),map.ToArray()));      
                 }
             }
             
             return new Level(map.ToArray(), mapName, platforms, keyLegend, customers);
-       
-        } //RETURNS NOT SO USELESS MAP
+        }
+        
         /// <summary>
-        /// Creates a level via TextToLevel / TextInFile
+        /// Creates a level via TextToLevel and TextInFile
         /// </summary>
-        /// <param name="levelFileName"></param>
-        /// <returns></returns>
-        public Level CreateLevel(string levelFileName) { //creates a level from a file name
+        /// <param name="levelFileName">The name of the file to look in</param>
+        /// <returns>A Level</returns>
+        public Level CreateLevel(string levelFileName) {
             return TextToLevel(TextInFile(levelFileName));
         }
         
@@ -100,8 +112,6 @@ namespace SpaceTaxi_3 {
             }
 
             return path;
-        }
-
-        
+        }  
     }
 }
