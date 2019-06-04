@@ -26,7 +26,7 @@ namespace SpaceTaxi_3.Taxi {
         public List<Image> taxiThrustBottomBack;
         public List<Image> taxiThrustBottomBackleft;
         public bool hasCustomer;
-        public Customer Customer;
+        public Customer customer;
 
 
 

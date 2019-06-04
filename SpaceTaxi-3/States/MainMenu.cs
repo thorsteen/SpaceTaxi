@@ -15,6 +15,7 @@ namespace SpaceTaxi_3.States {
         private Text[] menuButtons;
         private int activeMenuButton;
         private int maxMenuButton;
+        private LevelController levelController;
 
         public static MainMenu GetInstance() {
             return MainMenu.instance ?? (MainMenu.instance = new MainMenu());
@@ -22,8 +23,8 @@ namespace SpaceTaxi_3.States {
 
         public MainMenu() {
             menuButtons = new Text[] {
-                new Text("NEW GAME", new Vec2F(0.3f, 0.1f), new Vec2F(0.5f, 0.5f)),
-                new Text("CHOOSE LEVEL", new Vec2F(0.3f, 0.0f), new Vec2F(0.5f, 0.5f))
+                new Text("New Game", new Vec2F(0.3f, 0.1f), new Vec2F(0.5f, 0.5f)),
+                new Text("Choose Level", new Vec2F(0.3f, 0.0f), new Vec2F(0.5f, 0.5f))
             };
             foreach (var Text in menuButtons) {
                 Text.SetColor(Color.White);
@@ -33,8 +34,12 @@ namespace SpaceTaxi_3.States {
                 new StationaryShape(new Vec2F(0.0f, 0.0f), new Vec2F(1.0f, 1.0f)),
                 new Image(Path.Combine("Assets", "Images", "SpaceBackground.png")));
             
-        }
+            levelController = StateMachine.levelController;
 
+        }
+        /// <summary>
+        /// Controls the colour for the menu buttons
+        /// </summary>
         public void Chooser() {
 
             if (activeMenuButton == 0) {
@@ -75,6 +80,7 @@ namespace SpaceTaxi_3.States {
                             break;
                         case "KEY_ENTER":
                             if (activeMenuButton == 1) {
+                                levelController.setLevel(activeMenuButton);
                                 EventBus.GetBus().RegisterEvent(
                                     GameEventFactory<object>.CreateGameEventForAllProcessors(
                                         GameEventType.GameStateEvent,

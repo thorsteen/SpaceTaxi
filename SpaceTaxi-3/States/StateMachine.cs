@@ -5,7 +5,7 @@ namespace SpaceTaxi_3.States {
     public class StateMachine : IGameEventProcessor<object>
     {
         public static LevelController levelController;
-        
+        public static GameStateType lastActiveState;
         
         public IGameState ActivateState { get; private set; }
 
@@ -20,45 +20,51 @@ namespace SpaceTaxi_3.States {
             ActivateState = MainMenu.GetInstance();
             
         }
-
+        /// <summary>
+        /// Switches between states.
+        /// </summary>
+        /// <param name="stateType"></param>
         private void SwitchState(GameStateType stateType) {
+            
             switch (stateType) {
-            case GameStateType.MainMenu:
-                ActivateState = MainMenu.GetInstance();
-                break;
-            case GameStateType.GamePaused:
-                ActivateState = GamePaused.GetInstance();
-                break;
-            case GameStateType.GameRunning:
-                ActivateState = GameRunning.GetInstance();
-                
-                break;
-            case GameStateType.ChooseLevel:
-                ActivateState = ChooseLevel.GetInstance();
-                break;
+                case GameStateType.MainMenu:
+                    ActivateState = MainMenu.GetInstance();
+                    break;
+                case GameStateType.GamePaused:
+                    ActivateState = GamePaused.GetInstance();
+                    break;
+                case GameStateType.GameRunning:
+                    ActivateState = GameRunning.GetInstance();
+                    break;
+                case GameStateType.ChooseLevel:
+                    ActivateState = ChooseLevel.GetInstance();
+                    break;
+                default:
+                    ActivateState = MainMenu.GetInstance();
+                    break;
+            }
+            
+            // remembers last set state for eventual later restarts of level
+            if (stateType != GameStateType.GameRunning) {
+                lastActiveState = stateType;
             }
         }
-        
+
         public void ProcessEvent(GameEventType eventType, GameEvent<object> gameEvent) {
-            
-            if (eventType == GameEventType.GameStateEvent)
-            {
-
-                SwitchState(StateTransformer.TransformStringToState(gameEvent.Parameter1));
-                
-            }
-
-            if (eventType == GameEventType.InputEvent) {
-
-                switch (gameEvent.Parameter1) {
-                case "KEY_PRESS":
-                    ActivateState.HandleKeyEvent("KEY_PRESS", gameEvent.Message);
+            switch (eventType) {
+                case GameEventType.GameStateEvent:
+                    SwitchState(StateTransformer.TransformStringToState(gameEvent.Parameter1));
                     break;
-                case "KEY_RELEASE":
-                    ActivateState.HandleKeyEvent("KEY_RELEASE", gameEvent.Message);
+                case GameEventType.InputEvent:
+                    switch (gameEvent.Parameter1) {
+                        case "KEY_PRESS":
+                            ActivateState.HandleKeyEvent("KEY_PRESS", gameEvent.Message);
+                            break;
+                        case "KEY_RELEASE":
+                            ActivateState.HandleKeyEvent("KEY_RELEASE", gameEvent.Message);
+                            break;
+                    }
                     break;
-                }
-
             }
         }
     }

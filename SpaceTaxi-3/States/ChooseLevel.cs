@@ -20,7 +20,6 @@ namespace SpaceTaxi_3.States {
         private Level level;
         private List<Entity> EList;
         private LevelRender levelRender;
-        public LevelParser levelParser;
         public LevelController levelController;
         
 
@@ -44,7 +43,10 @@ namespace SpaceTaxi_3.States {
             levelController = StateMachine.levelController;
 
         }
-
+        
+        /// <summary>
+        /// Controls the colour for the menu buttons
+        /// </summary>
         public void Chooser() {
             if (activeMenuButton == 0) {
                 menuButtons[0].SetColor(Color.Green);

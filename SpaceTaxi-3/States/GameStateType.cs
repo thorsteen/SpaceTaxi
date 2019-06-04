@@ -7,6 +7,12 @@ namespace SpaceTaxi_3.States {
         MainMenu,
         ChooseLevel,
     }
+    
+    /// <summary>
+    /// Transformation of string into a relevant state type.
+    /// </summary>
+    /// <param name>String</param>
+    /// <returns>GameStateType</returns>
     public class StateTransformer {
             
         public static GameStateType TransformStringToState(String state) {
@@ -23,7 +29,12 @@ namespace SpaceTaxi_3.States {
                 throw new ArgumentException("String was not a valid Input");
             }
         }
-       
+       /// <summary>
+       /// Transformation of state type into relevant string.
+       /// </summary>
+       /// <param name="state">GameStateType</param>
+       /// <returns>String</returns>
+       /// <exception cref="ArgumentException"></exception>
         public static string TransformStateToString(GameStateType state) {
             switch (state) {
             case GameStateType.GameRunning:
