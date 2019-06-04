@@ -25,7 +25,7 @@ namespace SpaceTaxi_3.Taxi {
         public List<Image> taxiThrustleft;
         public List<Image> taxiThrustBottomBack;
         public List<Image> taxiThrustBottomBackleft;
-        public bool haveCustomer;
+        public bool hasCustomer;
         public Customer Customer;
 
 
@@ -59,7 +59,7 @@ namespace SpaceTaxi_3.Taxi {
             taxiThrustBottomBackleft = 
                 new List<Image>(ImageStride.CreateStrides(2,
                     Path.Combine("Assets", "Images", "Taxi_Thrust_Bottom_Back.png")));
-            haveCustomer = false;
+            hasCustomer = false;
         }
 
         public Entity Entity { get; }
