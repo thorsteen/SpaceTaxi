@@ -16,10 +16,6 @@ namespace SpaceTaxi_3.States {
         private Entity backGroundImage;
         private Text[] menuButtons;
         private int activeMenuButton;
-        private int maxMenuButton;
-        private Level level;
-        private List<Entity> eList;
-        private LevelRender levelRender;
         public LevelController levelController;
         
 
