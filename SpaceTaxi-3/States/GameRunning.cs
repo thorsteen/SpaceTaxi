@@ -10,88 +10,45 @@ using DIKUArcade.Physics;
 using DIKUArcade.State;
 using DIKUArcade.Timers;
 using SpaceTaxi_3.Taxi;
-using SpaceTaxi_3.Timer;
 using Image = DIKUArcade.Graphics.Image;
 
 namespace SpaceTaxi_3.States {
     public class GameRunning : IGameState{
-
-        public GameEventBus<object> eventBus;
-        
-        private EntityContainer EList;
-        
+        public GameEventBus<object> EventBus;
+        private EntityContainer eList;
         private Entity backGroundImage;
-        
         private Player player;
-        
         private Level level;
-        
-        public LevelParser levelParser;
-        
+        public LevelParser LevelParser;
         private LevelRender levelRender;
-        
         private Text[] score;
-        
         private int currentScore;
-        
-        private System.Timers.Timer timer;
-        
-        private TimerIndex TIMER;
-        
-        private StaticTimer tid;
-
         private static GameRunning instance;
-
-        public static LevelController levelController;
-        
-        public static GameStateType lastActiveState;
-
+        public static LevelController LevelController;
         private string levelFileName;
         
-        
-
         public GameRunning() {
-            eventBus = EventBus.GetBus();
-            
-            tid = new StaticTimer();
-
+            EventBus = SpaceTaxi_3.EventBus.GetBus();
             player = new Player();
-
-            eventBus.Subscribe(GameEventType.PlayerEvent, player);
-
+            EventBus.Subscribe(GameEventType.PlayerEvent, player);
             backGroundImage = new Entity(
                 new StationaryShape(new Vec2F(0.0f, 0.0f), new Vec2F(1.0f, 1.0f)),
                 new Image(Path.Combine("Assets", "Images", "SpaceBackground.png"))
             );
-            
             backGroundImage.RenderEntity();
-            
             // Level creation
-            levelController = StateMachine.levelController;
-
-            lastActiveState = StateMachine.lastActiveState;
-            
-            levelParser = new LevelParser();
-            
-            levelFileName = levelController.returnLevel();
-            
-            level = levelParser.CreateLevel(levelFileName);
-            
+            GameRunning.LevelController = StateMachine.LevelController;
+            LevelParser = new LevelParser();
+            levelFileName = GameRunning.LevelController.ReturnLevel();
+            level = LevelParser.CreateLevel(levelFileName);
             levelRender = new LevelRender();
-            
-            EList = levelRender.LevelToEntityList(level);
+            eList = levelRender.LevelToEntityList(level);
             //end of level creation
-
-            TIMER = new TimerIndex();
-            
             //score and timer display in-game
-            score = new Text[] {
-                new Text("Score: " + currentScore, new Vec2F(0.65f, 0.45f), new Vec2F(0.5f, 0.5f)),
-                new Text("Timer: " + TIMER.Timer, new Vec2F(0.65f,0.35f),new Vec2F(0.5f,0.5f))};
-            
+            score = new[] {
+                new Text("Score: " + currentScore, new Vec2F(0.65f, 0.45f), new Vec2F(0.5f, 0.5f))};
             //initiated with a 0 score
             currentScore = 0;
-            
             //text set to white
             foreach (var txt in score) {
                 txt.SetColor(Color.WhiteSmoke);
@@ -112,22 +69,19 @@ namespace SpaceTaxi_3.States {
         /// Unless it's a platform, and the taxi is going slow enough.
         /// </summary>
         public void DetectCollisionWall() {
-            foreach (Entity wall in EList) {
+            foreach (Entity wall in eList) {
 
                 if (CollisionDetection.Aabb(player.Entity.Shape.AsDynamicShape(),wall.Shape).Collision) { //if player hits wall
                     int mapPosX = Convert.ToInt32(wall.Shape.Position.X*40);
                     int mapPosY = Convert.ToInt32(22-wall.Shape.Position.Y*23);
-
                     if (level.platforms.Contains(level.map[mapPosY][mapPosX]) //if hit object is a platform...
-                        && Math.Sqrt(player.Velocity.X*player.Velocity.X+player.Velocity.Y*player.Velocity.Y) < 0.002f) { //...and not moving too fast
+                        && Math.Sqrt(player.Velocity.X*player.Velocity.X+player.Velocity.Y*player.Velocity.Y) < 0.002f) { 
                         player.Velocity.Y = 0;
-
                         player.Landed = true;
                         player.CurrentPlatform = level.map[mapPosY][mapPosX];
-                    } else { //player dead
+                    } else { //player dies
                         player.Entity.DeleteEntity();
-                        Console.WriteLine("Your are dead!");
-                        EventBus.GetBus().RegisterEvent(
+                        SpaceTaxi_3.EventBus.GetBus().RegisterEvent(
                             GameEventFactory<object>.CreateGameEventForAllProcessors(
                                 GameEventType.GameStateEvent,
                                 this,
@@ -135,24 +89,10 @@ namespace SpaceTaxi_3.States {
                                 "MAIN_MENU", ""));
                         player = new Player();
                         SetLevel("the-beach.txt");
-
-                        eventBus.Subscribe(GameEventType.PlayerEvent, player);
+                        EventBus.Subscribe(GameEventType.PlayerEvent, player);
                     }
                 }
             }
-        }
-        
-        /// <summary>
-        /// Delivers the customer if taxi on correct platform.
-        /// </summary>
-        public void CheckCustomer() {
-            string custDest = player.customer.destinationPlatform;
-            string playerDest = new string (player.CurrentPlatform,1);
-            if (custDest == playerDest) {
-                player.customer.delivered = true;
-                player.customer.pickedUp = false;
-                currentScore += player.customer.scoreForDelivery;
-            }           
         }
 
         /// <summary>
@@ -162,45 +102,34 @@ namespace SpaceTaxi_3.States {
         public void DetectCollisionCustomer() {
             foreach (Customer cust in level.customers) {
                 if (CollisionDetection.Aabb(player.Entity.Shape.AsDynamicShape(), cust.Entity.Shape).Collision) {
-                    cust.pickedUp = true;
-                    player.hasCustomer = true;
+                    cust.PickedUp = true;
+                    player.HasCustomer = true;
                 }
             }
         }
 
         public void GameLoop() {
         }
-
         public void InitializeGameState() {
-        }
-        
+        }      
         /// <summary>
         /// Updates the game by moving the player and checking for collisions with walls/platforms/customers/levelgates
         /// </summary>
         public void UpdateGameLogic() {
-            Console.WriteLine(StateMachine.lastActiveState);
-            //if last state was Main Menu, set new level
-            if (StateMachine.lastActiveState == GameStateType.MainMenu) {
-                Console.WriteLine("he");
-                SetLevel("the-beach.txt");
-            }
-            
             player.UpdateTaxi();
-            
             //pick-up of customer
             if (player.Landed) {
                 foreach (Customer cust in level.customers) {
                     char destination =
-                        cust.destinationPlatform[cust.destinationPlatform.Length - 1];
-                    if (cust.pickedUp && destination == player.CurrentPlatform && !cust.delivered) {
-                        cust.delivered = true;
-                        cust.pickedUp = false;
-                        currentScore += cust.scoreForDelivery;
+                        cust.DestinationPlatform[cust.DestinationPlatform.Length - 1];
+                    if (cust.PickedUp && destination == player.CurrentPlatform && !cust.Delivered) {
+                        cust.Delivered = true;
+                        cust.PickedUp = false;
+                        currentScore += cust.ScoreForDelivery;
                         score[0].SetText("Score: " + currentScore);
                     }
                 }
             }
-            
             //change of level if gate is hit
             if (player.Entity.Shape.Position.Y > 0.95) {
                 if (levelFileName == "the-beach.txt") {
@@ -208,21 +137,15 @@ namespace SpaceTaxi_3.States {
                 } else {
                     levelFileName = "the-beach.txt";
                 }
-
                 List<Customer> customers = level.customers;
-                SetLevel(levelFileName);
-                
+                SetLevel(levelFileName);              
                 //transfer of customers between levels
-                foreach (Customer customer in customers)
-                {
-                    if (customer.pickedUp)
-                    {
+                foreach (Customer customer in customers){
+                    if (customer.PickedUp){       
                         level.customers.Add(customer);
                     }
-
                 }
             }
-
             DetectCollisionWall();
             DetectCollisionCustomer();
         }
@@ -235,7 +158,7 @@ namespace SpaceTaxi_3.States {
                 player.RenderPlayer();
             }
             foreach (var customer in level.customers) {
-                if (!customer.pickedUp && !customer.delivered) {
+                if (!customer.PickedUp && !customer.Delivered) {
                     if (levelFileName == "the-beach.txt") {
                         if (StaticTimer.GetElapsedSeconds() >= 10) {
                             customer.Entity.RenderEntity();
@@ -248,7 +171,7 @@ namespace SpaceTaxi_3.States {
                     }
                 }
             }
-            EList.RenderEntities();
+            eList.RenderEntities();
             foreach (var txt in score) {
                 txt.RenderText();
             }
@@ -257,18 +180,19 @@ namespace SpaceTaxi_3.States {
         /// <summary>
         /// Changes the level, given a level file name.
         /// </summary>
-        /// <param name="levelFileName">filename of a text document, containing level data</param>
-        public void SetLevel(string levelFileName) {  
+        /// <param name="fileName">filename of a text document, containing level data</param>
+        public void SetLevel(string fileName) {  
             foreach (var cust in level.customers) {
-                if (cust.pickedUp && player.hasCustomer) {
-                    player.customer = cust;
+                if (cust.PickedUp && player.HasCustomer) {
+                    player.Customer = cust;
                 }
             }
-            level = levelParser.CreateLevel(levelFileName);
-            EList = levelRender.LevelToEntityList(level);
+            level = LevelParser.CreateLevel(fileName);
+            eList = levelRender.LevelToEntityList(level);
             player.SetPosition(0.45f, 0.6f);
             player.Velocity.X = 0.0f;
             player.Velocity.Y = 0.00f;
+            StaticTimer.RestartTimer();
         }
 
         /// <summary>
@@ -282,17 +206,17 @@ namespace SpaceTaxi_3.States {
                 switch (keyAction) {
 
                     case "KEY_LEFT":
-                        EventBus.GetBus().RegisterEvent(
+                        SpaceTaxi_3.EventBus.GetBus().RegisterEvent(
                                             GameEventFactory<object>.CreateGameEventForAllProcessors(
                                                 GameEventType.PlayerEvent, this, "STOP_ACCELERATE_LEFT", "", ""));
                                         break;
                     case "KEY_RIGHT":
-                                        EventBus.GetBus().RegisterEvent(
+                                        SpaceTaxi_3.EventBus.GetBus().RegisterEvent(
                                             GameEventFactory<object>.CreateGameEventForAllProcessors(
                                                 GameEventType.PlayerEvent, this, "STOP_ACCELERATE_RIGHT", "", ""));
                                         break;
                     case "KEY_UP":
-                                        EventBus.GetBus().RegisterEvent(
+                                        SpaceTaxi_3.EventBus.GetBus().RegisterEvent(
                                             GameEventFactory<object>.CreateGameEventForAllProcessors(
                                                 GameEventType.PlayerEvent, this, "STOP_ACCELERATE_UP", "", ""));
                                         break;
@@ -301,17 +225,17 @@ namespace SpaceTaxi_3.States {
             case "KEY_PRESS":
                 switch (keyAction) {
                                   case "KEY_UP":
-                                      EventBus.GetBus().RegisterEvent(
+                                      SpaceTaxi_3.EventBus.GetBus().RegisterEvent(
                                             GameEventFactory<object>.CreateGameEventForAllProcessors(
                                                 GameEventType.PlayerEvent, this, "BOOSTER_UPWARDS", "", ""));
                                         break;
                                     case "KEY_LEFT":
-                                        EventBus.GetBus().RegisterEvent(
+                                        SpaceTaxi_3.EventBus.GetBus().RegisterEvent(
                                             GameEventFactory<object>.CreateGameEventForAllProcessors(
                                                 GameEventType.PlayerEvent, this, "BOOSTER_TO_LEFT", "", ""));
                                         break;
                                     case "KEY_RIGHT":
-                                        EventBus.GetBus().RegisterEvent(
+                                        SpaceTaxi_3.EventBus.GetBus().RegisterEvent(
                                             GameEventFactory<object>.CreateGameEventForAllProcessors(
                                                 GameEventType.PlayerEvent, this, "BOOSTER_TO_RIGHT", "", ""));
                                         break;
@@ -326,7 +250,7 @@ namespace SpaceTaxi_3.States {
                                       SetLevel("short-n-sweet.txt");
                                       break;
                                   case "KEY_ESCAPE":
-                                      EventBus.GetBus().RegisterEvent(
+                                      SpaceTaxi_3.EventBus.GetBus().RegisterEvent(
                                           GameEventFactory<object>.CreateGameEventForAllProcessors(
                                               GameEventType.GameStateEvent,
                                               this,

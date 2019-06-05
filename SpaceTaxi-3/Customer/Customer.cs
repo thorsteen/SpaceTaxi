@@ -6,41 +6,37 @@ using DIKUArcade.Math;
 namespace SpaceTaxi_3 {
     public class Customer {
         private DynamicShape shape;
-        private Image customerLeft;
-        private Image customerMoveLeft;
-        private Image customerRight;
-        private Image customerMoveRight;
 
         public Entity Entity { get; private set; }
         
-        public string name;
-        public int secondsUntilSpawn;
-        public char homePlatform;
-        public string destinationPlatform;
-        public int dropOffTimeLimit;
-        public int scoreForDelivery;
+        public string Name;
+        public int SecondsUntilSpawn;
+        public char HomePlatform;
+        public string DestinationPlatform;
+        public int DropOffTimeLimit;
+        public int ScoreForDelivery;
         
-        public Vec2I platformCoords;
-        public Vec2F myCoords;
+        public Vec2I PlatformCoords;
+        public Vec2F MyCoords;
         
-        public bool pickedUp;
-        public bool delivered;
+        public bool PickedUp;
+        public bool Delivered;
         
-        public Customer(string Name, int SecondsUntilSpawn, char HomePlatform, string DestinationPlatform, int DropoffTimeLimit, int ScoreForDelivery, string[] map) {
-            name = Name;
-            secondsUntilSpawn = SecondsUntilSpawn;
-            homePlatform = HomePlatform;
-            destinationPlatform = DestinationPlatform;
-            dropOffTimeLimit = DropoffTimeLimit;
-            scoreForDelivery = ScoreForDelivery;
+        public Customer(string name, int secondsUntilSpawn, char homePlatform, string destinationPlatform, int dropoffTimeLimit, int scoreForDelivery, string[] map) {
+            this.Name = name;
+            this.SecondsUntilSpawn = secondsUntilSpawn;
+            this.HomePlatform = homePlatform;
+            this.DestinationPlatform = destinationPlatform;
+            DropOffTimeLimit = dropoffTimeLimit;
+            this.ScoreForDelivery = scoreForDelivery;
 
-            platformCoords = FindSymbolCoords.Find(map, homePlatform);
-            myCoords = new Vec2F(1f / 40f * (float)platformCoords.Y,22f/23f - (1f / 23f * (float)platformCoords.X)+1f / 23f);
+            PlatformCoords = FindSymbolCoords.Find(map, this.HomePlatform);
+            MyCoords = new Vec2F(1f / 40f * (float)PlatformCoords.Y,22f/23f - (1f / 23f * (float)PlatformCoords.X)+1f / 23f);
             
-            pickedUp = false;
-            delivered = false;
+            PickedUp = false;
+            Delivered = false;
             
-            shape = new DynamicShape(myCoords, new Vec2F(0.05f,0.05f));
+            shape = new DynamicShape(MyCoords, new Vec2F(0.05f,0.05f));
             Entity = new Entity(shape,new DIKUArcade.Graphics.Image(Path.Combine("Assets","Images","CustomerStandLeft.png")));
         }
     }

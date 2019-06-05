@@ -8,13 +8,13 @@ namespace SpaceTaxi_3.States {
         ChooseLevel,
     }
     
-    /// <summary>
-    /// Transformation of string into a relevant state type.
-    /// </summary>
-    /// <param name>String</param>
-    /// <returns>GameStateType</returns>
+    
     public class StateTransformer {
-            
+        /// <summary>
+        /// Given a string, it transform the string into the given state of the string given, does this via events.
+        /// </summary>
+        /// <param name= "state">String</param>
+        /// <returns>GameStateType</returns>
         public static GameStateType TransformStringToState(String state) {
             switch (state) {
             case "GAME_RUNNING":
@@ -30,7 +30,7 @@ namespace SpaceTaxi_3.States {
             }
         }
        /// <summary>
-       /// Transformation of state type into relevant string.
+       /// Transform a given state into a string, via the use of Events
        /// </summary>
        /// <param name="state">GameStateType</param>
        /// <returns>String</returns>

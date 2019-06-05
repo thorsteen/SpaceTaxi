@@ -34,7 +34,7 @@ namespace SpaceTaxi_3.States {
                 new StationaryShape(new Vec2F(0.0f, 0.0f), new Vec2F(1.0f, 1.0f)),
                 new Image(Path.Combine("Assets", "Images", "SpaceBackground.png")));
             
-            levelController = StateMachine.levelController;
+            levelController = StateMachine.LevelController;
 
         }
         /// <summary>
@@ -80,7 +80,7 @@ namespace SpaceTaxi_3.States {
                             break;
                         case "KEY_ENTER":
                             if (activeMenuButton == 1) {
-                                levelController.setLevel(activeMenuButton);
+                                levelController.SetLevel(activeMenuButton);
                                 EventBus.GetBus().RegisterEvent(
                                     GameEventFactory<object>.CreateGameEventForAllProcessors(
                                         GameEventType.GameStateEvent,

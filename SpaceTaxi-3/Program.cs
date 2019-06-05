@@ -1,5 +1,4 @@
 ﻿using System;
-using SpaceTaxi_3.Timer;
 
 namespace SpaceTaxi_3 {
     internal class Program {
