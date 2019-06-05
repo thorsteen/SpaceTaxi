@@ -3,8 +3,6 @@ using DIKUArcade.Entities;
 using NUnit.Framework;
 using SpaceTaxi_3;
 using SpaceTaxi_3.States;
-using SpaceTaxi_3.Taxi;
-using SpaceTaxi_3.Timer;
 
 namespace TaxiTests
 {
@@ -39,9 +37,9 @@ namespace TaxiTests
         {
             levelController = new LevelController();
 
-            levelController.setLevel(0);
+            levelController.SetLevel(0);
 
-            Assert.AreEqual("short-n-sweet.txt",levelController.returnLevel());
+            Assert.AreEqual("short-n-sweet.txt",levelController.ReturnLevel());
         }
 
         [Test]
@@ -49,9 +47,9 @@ namespace TaxiTests
         {
             levelController = new LevelController();
 
-            levelController.setLevel(1);
+            levelController.SetLevel(1);
 
-            Assert.AreEqual("the-beach.txt",levelController.returnLevel());
+            Assert.AreEqual("the-beach.txt",levelController.ReturnLevel());
         }
         
         [Test]

@@ -6,7 +6,6 @@ using DIKUArcade.State;
 using NUnit.Framework;
 using SpaceTaxi_3;
 using SpaceTaxi_3.States;
-using SpaceTaxi_3.Timer;
 
 namespace TaxiTests
 {
@@ -14,7 +13,6 @@ namespace TaxiTests
     {
         private StateMachine stateMachine;
         private GameEventBus<object> eventBus;
-        private TimerIndex time;
 
 
         
@@ -113,26 +111,5 @@ namespace TaxiTests
             Assert.AreEqual("MAIN_MENU",StateTransformer.TransformStateToString(GameStateType.MainMenu));
         }
         
-        [Test]
-        public void TestTimer()
-        {
-            time = new TimerIndex();
-
-            time.PrintSeconds(1,1);
-
-            Assert.AreEqual(1, time.Timer);
-            Assert.AreEqual(1, time.OneMin);
-            
-        }
-
-        [Test]
-        public void TestTimer0()
-        {
-            time = new TimerIndex();
-
-            Assert.AreEqual(0, time.Timer);
-            Assert.AreEqual(0, time.OneMin);
-            
-        }
     }
 }

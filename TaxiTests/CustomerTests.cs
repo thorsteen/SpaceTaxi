@@ -16,9 +16,9 @@ namespace TaxiTests
         [Test]
         public void CheckPickUp()
         {
-            var customercoords = level.customers[0].myCoords;
+            var customercoords = level.customers[0].MyCoords;
             player.SetPosition(customercoords.X,customercoords.Y);
-            Assert.True(level.customers[0].pickedUp);
+            Assert.True(level.customers[0].PickedUp);
 
         }
         /// <summary>
@@ -27,7 +27,7 @@ namespace TaxiTests
         [Test]
         public void CheckDelivered()
         {
-            var customerDelivery = level.customers[0].destinationPlatform;
+            var customerDelivery = level.customers[0].DestinationPlatform;
             string playerDest = new string (player.CurrentPlatform,1);
             Assert.True(customerDelivery == playerDest);
         }
@@ -36,9 +36,9 @@ namespace TaxiTests
         public void CheckScore()
         {
             int addScore = 0;
-            int score = level.customers[0].scoreForDelivery;
-            level.customers[0].delivered = true;
-            if (level.customers[0].delivered)
+            int score = level.customers[0].ScoreForDelivery;
+            level.customers[0].Delivered = true;
+            if (level.customers[0].Delivered)
             {
                 addScore += score;
             }
