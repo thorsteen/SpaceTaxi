@@ -117,12 +117,12 @@ namespace SpaceTaxi_3.States {
         /// </summary>
         public void UpdateGameLogic() {
             player.UpdateTaxi();
-            //pick-up of customer
+            //delivery of customer
             if (player.Landed) {
                 foreach (Customer cust in level.customers) {
                     char destination =
                         cust.DestinationPlatform[cust.DestinationPlatform.Length - 1];
-                    if (cust.PickedUp && destination == player.CurrentPlatform && !cust.Delivered) {
+                    if (cust.PickedUp && (destination == player.CurrentPlatform || destination == ' ') && !cust.Delivered) {
                         cust.Delivered = true;
                         cust.PickedUp = false;
                         currentScore += cust.ScoreForDelivery;
@@ -141,7 +141,10 @@ namespace SpaceTaxi_3.States {
                 SetLevel(levelFileName);              
                 //transfer of customers between levels
                 foreach (Customer customer in customers){
-                    if (customer.PickedUp){       
+                    if (customer.PickedUp){
+                        if (customer.DestinationPlatform == "^") {
+                            customer.DestinationPlatform = "^ "; // "^ " signifies any platform in THIS level
+                        }
                         level.customers.Add(customer);
                     }
                 }
