@@ -2,29 +2,26 @@ namespace SpaceTaxi_3.States
 {
     public class LevelController
     {
-        private string LevelName;
+        private string levelName;
         
         /// <summary>
         /// Default level
         /// </summary>
-        public LevelController()
-        {
-            LevelName = "the-beach.txt";
+        public LevelController(){
+        
+            levelName = "the-beach.txt";
         }
         
         /// <summary>
         /// Sets on of the two level name for later use of LevelController in levelParser.
         /// </summary>
         /// <param name="i">int</param>
-        public void setLevel(int i)
-        {
-            if (i == 0)
-            {
-                LevelName = "short-n-sweet.txt";
+        public void SetLevel(int i){      
+            if (i == 0){
+                levelName = "short-n-sweet.txt";
             }
-            else
-            {
-                LevelName = "the-beach.txt";   
+            else{    
+                levelName = "the-beach.txt";   
             }
         }
         
@@ -32,9 +29,8 @@ namespace SpaceTaxi_3.States
         /// Returns the set level name.
         /// </summary>
         /// <returns>String</returns>
-        public string returnLevel()
-        {
-            return LevelName;
+        public string ReturnLevel(){        
+            return levelName;
         }
         
         

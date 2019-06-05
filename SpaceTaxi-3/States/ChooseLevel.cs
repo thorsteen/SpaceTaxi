@@ -18,7 +18,7 @@ namespace SpaceTaxi_3.States {
         private int activeMenuButton;
         private int maxMenuButton;
         private Level level;
-        private List<Entity> EList;
+        private List<Entity> eList;
         private LevelRender levelRender;
         public LevelController levelController;
         
@@ -32,16 +32,13 @@ namespace SpaceTaxi_3.States {
                 new Text("Beach level", new Vec2F(0.3f, 0.1f), new Vec2F(0.5f, 0.5f)),
                 new Text("Short 'n Sweet", new Vec2F(0.40f, 0.0f), new Vec2F(0.5f, 0.5f))
             };
-            foreach (var Text in menuButtons) {
-                Text.SetColor(Color.White);
+            foreach (var text in menuButtons) {
+                text.SetColor(Color.White);
             }
-
             backGroundImage = new Entity(
                 new StationaryShape(new Vec2F(0.0f, 0.0f), new Vec2F(1.0f, 1.0f)),
                 new Image(Path.Combine("Assets", "Images", "SpaceBackground.png")));
-
-            levelController = StateMachine.levelController;
-
+            levelController = StateMachine.LevelController;
         }
         
         /// <summary>
@@ -67,8 +64,8 @@ namespace SpaceTaxi_3.States {
         public void RenderState() {
             backGroundImage.RenderEntity();
             Chooser();
-            foreach (var Text in menuButtons) {
-                Text.RenderText();
+            foreach (var text in menuButtons) {
+                text.RenderText();
             }
 
         }
@@ -89,7 +86,7 @@ namespace SpaceTaxi_3.States {
                 case "KEY_ENTER":
                     if (activeMenuButton == 1)
                     {
-                        levelController.setLevel(activeMenuButton);
+                        levelController.SetLevel(activeMenuButton);
                         EventBus.GetBus().RegisterEvent(
                             GameEventFactory<object>.CreateGameEventForAllProcessors(
                                 GameEventType.GameStateEvent,
@@ -98,7 +95,7 @@ namespace SpaceTaxi_3.States {
                                 "GAME_RUNNING", ""));
 
                     } else {
-                        levelController.setLevel(activeMenuButton);
+                        levelController.SetLevel(activeMenuButton);
                         EventBus.GetBus().RegisterEvent(
                             GameEventFactory<object>.CreateGameEventForAllProcessors(
                                 GameEventType.GameStateEvent,

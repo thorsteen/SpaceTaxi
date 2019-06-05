@@ -4,28 +4,25 @@ using DIKUArcade.State;
 namespace SpaceTaxi_3.States {
     public class StateMachine : IGameEventProcessor<object>
     {
-        public static LevelController levelController;
-        public static GameStateType lastActiveState;
-        
+        public static LevelController LevelController;
+
         public IGameState ActivateState { get; private set; }
 
-        public StateMachine() {
-            
-            levelController = new LevelController();
+        public StateMachine() {     
+            StateMachine.LevelController = new LevelController();
 
             EventBus.GetBus().Subscribe(GameEventType.GameStateEvent, this);
             EventBus.GetBus().Subscribe(GameEventType.InputEvent, this);
             EventBus.GetBus().Subscribe(GameEventType.PlayerEvent, this);
 
-            ActivateState = MainMenu.GetInstance();
-            
+            ActivateState = MainMenu.GetInstance();         
         }
+        
         /// <summary>
         /// Switches between states.
         /// </summary>
         /// <param name="stateType"></param>
-        private void SwitchState(GameStateType stateType) {
-            
+        private void SwitchState(GameStateType stateType) {       
             switch (stateType) {
                 case GameStateType.MainMenu:
                     ActivateState = MainMenu.GetInstance();
@@ -42,12 +39,9 @@ namespace SpaceTaxi_3.States {
                 default:
                     ActivateState = MainMenu.GetInstance();
                     break;
-            }
-            
+            }   
             // remembers last set state for eventual later restarts of level
-            if (stateType != GameStateType.GameRunning) {
-                lastActiveState = stateType;
-            }
+            if (stateType != GameStateType.GameRunning) { }
         }
 
         public void ProcessEvent(GameEventType eventType, GameEvent<object> gameEvent) {

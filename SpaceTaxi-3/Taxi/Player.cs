@@ -11,22 +11,22 @@ namespace SpaceTaxi_3.Taxi {
         private readonly Image taxiBoosterOffImageRight;
         private readonly DynamicShape shape;
         private Orientation taxiOrientation;
-        private bool LeftHeld;
-        private bool RightHeld;
-        private bool UpHeld;
+        private bool leftHeld;
+        private bool rightHeld;
+        private bool upHeld;
         public Vec2F Velocity;
         public AnimationContainer Thrusters;
         public List<Image> ThrusterStrides;
         public bool Landed;
         public char CurrentPlatform;
-        public List<Image> taxiThrustbottom;
-        public List<Image> taxiThrustrightBack;
-        public List<Image> taxiThrustright;
-        public List<Image> taxiThrustleft;
-        public List<Image> taxiThrustBottomBack;
-        public List<Image> taxiThrustBottomBackleft;
-        public bool hasCustomer;
-        public Customer customer;
+        public List<Image> TaxiThrustbottom;
+        public List<Image> TaxiThrustrightBack;
+        public List<Image> TaxiThrustright;
+        public List<Image> TaxiThrustleft;
+        public List<Image> TaxiThrustBottomBack;
+        public List<Image> TaxiThrustBottomBackleft;
+        public bool HasCustomer;
+        public Customer Customer;
 
 
 
@@ -41,25 +41,25 @@ namespace SpaceTaxi_3.Taxi {
 
             Entity = new Entity(shape, TaxiImages.TaxiThrustNone());
             Thrusters = new AnimationContainer(500);
-            taxiThrustbottom =
+            TaxiThrustbottom =
                 new List<Image>(ImageStride.CreateStrides(2,
                     Path.Combine("Assets", "Images", "Taxi_Thrust_Bottom.png")));
-            taxiThrustrightBack =
+            TaxiThrustrightBack =
                 new List<Image>(ImageStride.CreateStrides(2,
                     Path.Combine("Assets", "Images", "Taxi_Thrust_Back_Right.png")));
-            taxiThrustright =
+            TaxiThrustright =
                 new List<Image>(ImageStride.CreateStrides(2,
                     Path.Combine("Assets", "Images", "Taxi_Thrust_Bottom_Right.png")));
-            taxiThrustleft =
+            TaxiThrustleft =
                 new List<Image>(ImageStride.CreateStrides(2,
                     Path.Combine("Assets", "Images", "Taxi_Thrust_Back.png")));
-            taxiThrustBottomBack = 
+            TaxiThrustBottomBack = 
                 new List<Image>(ImageStride.CreateStrides(2,
                     Path.Combine("Assets", "Images", "Taxi_Thrust_Bottom_Back_Right.png")));
-            taxiThrustBottomBackleft = 
+            TaxiThrustBottomBackleft = 
                 new List<Image>(ImageStride.CreateStrides(2,
                     Path.Combine("Assets", "Images", "Taxi_Thrust_Bottom_Back.png")));
-            hasCustomer = false;
+            HasCustomer = false;
         }
 
         public Entity Entity { get; }
@@ -73,66 +73,59 @@ namespace SpaceTaxi_3.Taxi {
             shape.Extent.X = width;
             shape.Extent.Y = height;
         }
-
+        /// <summary>
+        /// Renders the players thruster images. 
+        /// </summary>
         public void RenderPlayer() {
             Entity.Image = taxiOrientation == Orientation.Left
                 ? taxiBoosterOffImageLeft
                 : taxiBoosterOffImageRight;
 
-            if (UpHeld && taxiOrientation == Orientation.Left) {
-                Entity.Image = new ImageStride(80, taxiThrustbottom);
+            if (upHeld && taxiOrientation == Orientation.Left) {
+                Entity.Image = new ImageStride(80, TaxiThrustbottom);
             }
-            if (UpHeld && taxiOrientation == Orientation.Right) {
-                Entity.Image = new ImageStride(80,taxiThrustright);
+            if (upHeld && taxiOrientation == Orientation.Right) {
+                Entity.Image = new ImageStride(80,TaxiThrustright);
             }
-            if (LeftHeld) { ;
-                Entity.Image = new ImageStride(80,taxiThrustleft);
+            if (leftHeld) { ;
+                Entity.Image = new ImageStride(80,TaxiThrustleft);
             }
-            if (RightHeld) {
-                Entity.Image = new ImageStride(80,taxiThrustrightBack);
-            }
-
-            if (UpHeld && RightHeld) {
-                Entity.Image = new ImageStride(80,taxiThrustBottomBack);
+            if (rightHeld) {
+                Entity.Image = new ImageStride(80,TaxiThrustrightBack);
             }
 
-            if (UpHeld && LeftHeld)  {
-                Entity.Image = new ImageStride(80, taxiThrustBottomBackleft);
+            if (upHeld && rightHeld) {
+                Entity.Image = new ImageStride(80,TaxiThrustBottomBack);
             }
-            
-            
+
+            if (upHeld && leftHeld)  {
+                Entity.Image = new ImageStride(80, TaxiThrustBottomBackleft);
+            }           
             Entity.RenderEntity();
-            
         }
-
+        /// <summary>
+        /// Keeps a track of the players movement and velocity, as well as gravity
+        /// </summary>
         public void UpdateTaxi() {
-            if (LeftHeld == true) {
+            if (leftHeld) {
                 Velocity.X -= 0.0001f;
             }
-
-            if (RightHeld == true) {
+            if (rightHeld) {
                 Velocity.X += 0.0001f;
             }
-
-            if (UpHeld == true) {
+            if (upHeld) {
                 Velocity.Y += 0.0001f;
             }
-
             if (Velocity.Y > 0f) {
                 Landed = false; //Taxi is not landed if it is moving upward
             }
-
             if (Landed) {
                 Velocity.X = 0f; //Taxi cannot glide on platform
             } else {
                 Velocity.Y -= 0.00005f; //gravity
             }
-
             Entity.Shape.AsDynamicShape().Direction = Velocity;
-
-            Entity.Shape.AsDynamicShape().Move();
-            
-            
+            Entity.Shape.AsDynamicShape().Move();                        
         }
 
         public void ProcessEvent(GameEventType eventType, GameEvent<object> gameEvent) {
@@ -140,25 +133,25 @@ namespace SpaceTaxi_3.Taxi {
                 switch (gameEvent.Message) {
                 
                     case "BOOSTER_TO_LEFT":
-                        LeftHeld = true;
+                        leftHeld = true;
                         taxiOrientation = Orientation.Left;
                         break;
                     case "BOOSTER_TO_RIGHT":
-                        RightHeld = true;
+                        rightHeld = true;
                         taxiOrientation = Orientation.Right;
                         break;
                     case "BOOSTER_UPWARDS":
-                        UpHeld = true;
+                        upHeld = true;
                         break;
                     
                     case "STOP_ACCELERATE_LEFT":
-                        LeftHeld = false;
+                        leftHeld = false;
                         break;
                     case "STOP_ACCELERATE_RIGHT":
-                        RightHeld = false;
+                        rightHeld = false;
                         break;
                     case "STOP_ACCELERATE_UP":
-                        UpHeld = false;
+                        upHeld = false;
                         break;
                 }
             }

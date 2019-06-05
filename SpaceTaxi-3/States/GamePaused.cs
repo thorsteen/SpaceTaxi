@@ -9,7 +9,7 @@ using Image = DIKUArcade.Graphics.Image;
 
 namespace SpaceTaxi_3.States {
     public class GamePaused : IGameState {
-        private static GamePaused instance = null;
+        private static GamePaused instance;
 
         private Entity backGroundImage;
         private Text[] menuButtons;
@@ -17,13 +17,13 @@ namespace SpaceTaxi_3.States {
         private int maxMenuButton;
         
         public GamePaused() {
-            menuButtons = new Text[] {
+            menuButtons = new[] {
                 new Text("Continue", new Vec2F(0.3f, 0.1f), new Vec2F(0.5f, 0.5f)),
                 new Text("Main Menu", new Vec2F(0.4f, 0.0f), new Vec2F(0.5f, 0.5f)),
                 new Text("Press ESC: Quit", new Vec2F(0.2f, 0.2f), new Vec2F(0.5f, 0.5f))
             };
-            foreach (var Text in menuButtons) {
-                Text.SetColor(Color.White);
+            foreach (var text in menuButtons) {
+                text.SetColor(Color.White);
             }
 
             backGroundImage = new Entity(
@@ -46,7 +46,6 @@ namespace SpaceTaxi_3.States {
 
         public static GamePaused GetInstance() {
             return GamePaused.instance ?? (GamePaused.instance = new GamePaused());
-
         }
 
         public void GameLoop() { }
@@ -60,8 +59,8 @@ namespace SpaceTaxi_3.States {
         public void RenderState() {
             backGroundImage.RenderEntity();
 
-            foreach (var Text in menuButtons) {
-                Text.RenderText();
+            foreach (var text in menuButtons) {
+                text.RenderText();
             }
         }
 
