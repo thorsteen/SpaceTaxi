@@ -13,15 +13,15 @@ namespace TaxiTests
         private LevelController levelController;
         private FindSymbolCoords symbol;
         private LevelParser lvlParser;
-        
-        
+
         [Test]
         public void TestCreateLevel()
         {
-            lvlParser = new LevelParser();
-
+            var level = new LevelParser().CreateLevel("short-n-sweet.txt");
+            Assert.AreSame(level.mapName, "SHORT -N- SWEET");
+            /*Level level1 = new LevelParser().CreateLevel("the-beach.txt");
             var tempName = lvlParser.CreateLevel("the-beach.txt").mapName;
-            Assert.AreEqual("THE BEACH", tempName);
+            Assert.AreSame("THE BEACH", level1.mapName);*/
         }
 
         [Test]

@@ -42,6 +42,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomerTests.cs" />
     <Compile Include="LevelParserTest.cs" />
     <Compile Include="PlayerTest.cs" />
     <Compile Include="StateTest.cs" />

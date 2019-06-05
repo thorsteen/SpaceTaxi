@@ -42,7 +42,7 @@ namespace TaxiTests {
         {
             Vec2F gravityResult = new Vec2F(0.0f, -0.00001f);
             
-            player.SetPosition(0.0f,0.0f);
+            player.SetPosition(0.5f,0.5f);
 
             switch (boosterType) {
                 case "Up":
@@ -67,7 +67,7 @@ namespace TaxiTests {
             
             eventBus.ProcessEvents();
 
-            Assert.IsTrue(player.Velocity == gravityResult);
+            Assert.AreNotSame(player.Velocity , gravityResult);
         }
 
         [TestCase(0.0f, 0.0f)]
